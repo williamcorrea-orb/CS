@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Intelligence Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F4F1EC;
+    --surface: #FDFBF8;
+    --ink: #1A1814;
+    --ink-2: #6B6760;
+    --ink-3: #A8A49F;
+    --rule: #E2DDD8;
+    --accent-red: #C94040;
+    --accent-amber: #C98A1A;
+    --accent-teal: #1A8A7A;
+    --accent-blue: #2A5FA8;
+    --accent-violet: #7A5AC9;
+    --accent-green: #3A9A5A;
+    --col-normal: #4A72C4;
+    --col-sat: #C94040;
+    --col-llamada: #C98A1A;
+    --col-contacto: #888480;
+    --col-texto: #1A9A8A;
+    --col-receptivo: #3A9A5A;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: #F4F1EC;
+    padding: 28px 48px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--accent-amber);
+  }
+
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+  }
+
+  .header-meta {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #A8A49F;
+  }
+
+  .header-total {
+    text-align: right;
+  }
+
+  .header-total .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    color: #F4F1EC;
+    line-height: 1;
+  }
+
+  .header-total .label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #A8A49F;
+    margin-top: 2px;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    padding: 40px 48px;
+    display: grid;
+    gap: 32px;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .kpi-card {
+    background: var(--surface);
+    padding: 24px 20px 20px;
+    position: relative;
+    transition: background 0.15s;
+  }
+
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .kpi-card.contacto::before { background: var(--col-contacto); }
+  .kpi-card.llamada::before { background: var(--col-llamada); }
+  .kpi-card.texto::before { background: var(--col-texto); }
+  .kpi-card.receptivo::before { background: var(--col-receptivo); }
+  .kpi-card.saturado::before { background: var(--col-sat); }
+  .kpi-card.normal::before { background: var(--col-normal); }
+
+  .kpi-index {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+
+  .kpi-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .kpi-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .kpi-pct {
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+
+  .kpi-desc {
+    font-size: 10.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    border-top: 1px solid var(--rule);
+    padding-top: 10px;
+  }
+
+  .kpi-action {
+    margin-top: 12px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .kpi-card.contacto .kpi-action { color: var(--col-contacto); }
+  .kpi-card.llamada .kpi-action { color: var(--col-llamada); }
+  .kpi-card.texto .kpi-action { color: var(--col-texto); }
+  .kpi-card.receptivo .kpi-action { color: var(--col-receptivo); }
+  .kpi-card.saturado .kpi-action { color: var(--col-sat); }
+  .kpi-card.normal .kpi-action { color: var(--col-normal); }
+
+  /* ── BOTTOM ROW ── */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px 28px 24px;
+  }
+
+  .panel-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .panel-sub {
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-bottom: 24px;
+  }
+
+  /* ── DONUT ── */
+  .donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .donut-svg { flex-shrink: 0; }
+
+  .donut-legend { flex: 1; }
+
+  .legend-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 12px;
+  }
+
+  .legend-row:last-child { border-bottom: none; }
+
+  .legend-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-label { color: var(--ink-2); }
+
+  .legend-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .legend-count {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--ink);
+  }
+
+  .legend-pct {
+    font-size: 11px;
+    color: var(--ink-3);
+    width: 36px;
+    text-align: right;
+  }
+
+  /* ── STACKED BAR CHART ── */
+  .bar-chart { display: flex; flex-direction: column; gap: 18px; }
+
+  .bar-group {}
+
+  .bar-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+
+  .bar-name { color: var(--ink-2); max-width: 180px; line-height: 1.3; }
+
+  .bar-total {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .bar-track {
+    height: 10px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .bar-seg { height: 100%; transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 16px 48px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .f-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    color: var(--ink-3);
+  }
+
+  .f-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="header-title">CRM · Inteligencia de Contactabilidad</div>
+    <div class="header-meta" style="margin-top:6px;">Segmentación de backlog activo · Vista ejecutiva</div>
+  </div>
+  <div class="header-total">
+    <div class="num">5.258</div>
+    <div class="label">Clientes en seguimiento</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- KPI STRIP -->
+  <div>
+    <div class="section-label">Segmentos de contactabilidad</div>
+    <div class="kpi-strip">
+
+      <div class="kpi-card contacto">
+        <div class="kpi-index">01 · Dormidos</div>
+        <div class="kpi-num">145</div>
+        <div class="kpi-name">Sin contacto</div>
+        <div class="kpi-pct">2.8% del total</div>
+        <div class="kpi-desc">Menos de 5 interacciones humanas. El motor aún no los ha trabajado en serio.</div>
+        <div class="kpi-action">→ Abrir conversación</div>
+      </div>
+
+      <div class="kpi-card llamada">
+        <div class="kpi-index">02 · Pendiente llamada</div>
+        <div class="kpi-num">217</div>
+        <div class="kpi-name">Requieren llamada</div>
+        <div class="kpi-pct">4.1% del total</div>
+        <div class="kpi-desc">Han recibido email o texto, nunca llamada. La voz es el paso natural.</div>
+        <div class="kpi-action">→ Llamar por voz</div>
+      </div>
+
+      <div class="kpi-card texto">
+        <div class="kpi-index">03 · Pendiente WA/Mail</div>
+        <div class="kpi-num">26</div>
+        <div class="kpi-name">Requieren texto</div>
+        <div class="kpi-pct">0.5% del total</div>
+        <div class="kpi-desc">Solo contactados por llamada. Falta diversificar el punto de contacto.</div>
+        <div class="kpi-action">→ Enviar texto o email</div>
+      </div>
+
+      <div class="kpi-card receptivo">
+        <div class="kpi-index">04 · Altísima respuesta</div>
+        <div class="kpi-num">13</div>
+        <div class="kpi-name">Receptivos</div>
+        <div class="kpi-pct">0.2% del total</div>
+        <div class="kpi-desc">100% de interacciones exitosas. Clientes que contestan siempre. Priorizar.</div>
+        <div class="kpi-action">→ Priorizar cierre</div>
+      </div>
+
+      <div class="kpi-card saturado">
+        <div class="kpi-index">05 · Fatiga de canal</div>
+        <div class="kpi-num">1.184</div>
+        <div class="kpi-name">Saturados</div>
+        <div class="kpi-pct">22.5% del total</div>
+        <div class="kpi-desc">Más de 50 intentos con éxito menor al 50%. Están agotados del ruido.</div>
+        <div class="kpi-action">→ Pausar y replantear</div>
+      </div>
+
+      <div class="kpi-card normal">
+        <div class="kpi-index">06 · Resto del backlog</div>
+        <div class="kpi-num">3.673</div>
+        <div class="kpi-name">Engagement normal</div>
+        <div class="kpi-pct">69.9% del total</div>
+        <div class="kpi-desc">Actividad mixta sin criterio extremo. Base operativa con seguimiento estándar.</div>
+        <div class="kpi-action">→ Seguimiento estándar</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+
+    <!-- DONUT -->
+    <div class="panel">
+      <div class="panel-title">Salud de contactabilidad</div>
+      <div class="panel-sub">Volumen total por grupo · 5.258 clientes</div>
+      <div class="donut-wrap">
+
+        <svg class="donut-svg" width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="58" fill="none" stroke="#E2DDD8" stroke-width="20"/>
+          <!-- normal 69.9% = 363.8 of 520.4 total circumference (r=58, c=364.4) -->
+          <!-- sat 22.5% = 81.9 -->
+          <!-- llamada 4.1% = 14.9 -->
+          <!-- contacto 2.8% = 10.2 -->
+          <!-- texto 0.5% = 1.8 -->
+          <!-- receptivo 0.2% = 0.7 -->
+          <g transform="rotate(-90 80 80)">
+            <!-- normal -->
+            <circle cx="80" cy="80" r="58" fill="none" stroke="#4A72C4" stroke-width="20"
+              stroke-dasharray="254.8 364.4" stroke-dashoffset="0"/>
+            <!-- saturado -->
+            <circle cx="80" cy="80" r="58" fill="none" stroke="#C94040" stroke-width="20"
+              stroke-dasharray="82.0 364.4" stroke-dashoffset="-254.8"/>
+            <!-- llamada -->
+            <circle cx="80" cy="80" r="58" fill="none" stroke="#C98A1A" stroke-width="20"
+              stroke-dasharray="14.9 364.4" stroke-dashoffset="-336.8"/>
+            <!-- contacto -->
+            <circle cx="80" cy="80" r="58" fill="none" stroke="#888480" stroke-width="20"
+              stroke-dasharray="10.2 364.4" stroke-dashoffset="-351.7"/>
+            <!-- texto -->
+            <circle cx="80" cy="80" r="58" fill="none" stroke="#1A9A8A" stroke-width="20"
+              stroke-dasharray="1.8 364.4" stroke-dashoffset="-361.9"/>
+            <!-- receptivo -->
+            <circle cx="80" cy="80" r="58" fill="none" stroke="#3A9A5A" stroke-width="20"
+              stroke-dasharray="0.7 364.4" stroke-dashoffset="-363.7"/>
+          </g>
+          <text x="80" y="74" text-anchor="middle" font-family="DM Serif Display,serif" font-size="26" fill="#1A1814">5.258</text>
+          <text x="80" y="91" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#A8A49F" letter-spacing="2">CLIENTES</text>
+        </svg>
+
+        <div class="donut-legend">
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:var(--col-normal)"></div>
+              <span class="legend-label">Engagement normal</span>
+            </div>
+            <div class="legend-right">
+              <span class="legend-count">3.673</span>
+              <span class="legend-pct">69.9%</span>
+            </div>
+          </div>
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:var(--col-sat)"></div>
+              <span class="legend-label">Saturados</span>
+            </div>
+            <div class="legend-right">
+              <span class="legend-count">1.184</span>
+              <span class="legend-pct">22.5%</span>
+            </div>
+          </div>
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:var(--col-llamada)"></div>
+              <span class="legend-label">Requieren llamada</span>
+            </div>
+            <div class="legend-right">
+              <span class="legend-count">217</span>
+              <span class="legend-pct">4.1%</span>
+            </div>
+          </div>
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:var(--col-contacto)"></div>
+              <span class="legend-label">Sin contacto</span>
+            </div>
+            <div class="legend-right">
+              <span class="legend-count">145</span>
+              <span class="legend-pct">2.8%</span>
+            </div>
+          </div>
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:var(--col-texto)"></div>
+              <span class="legend-label">Requieren texto</span>
+            </div>
+            <div class="legend-right">
+              <span class="legend-count">26</span>
+              <span class="legend-pct">0.5%</span>
+            </div>
+          </div>
+          <div class="legend-row">
+            <div class="legend-left">
+              <div class="legend-dot" style="background:var(--col-receptivo)"></div>
+              <span class="legend-label">Receptivos</span>
+            </div>
+            <div class="legend-right">
+              <span class="legend-count">13</span>
+              <span class="legend-pct">0.2%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STACKED BAR CHART -->
+    <div class="panel">
+      <div class="panel-title">Composición por escenario</div>
+      <div class="panel-sub">Proporción de cada grupo dentro de cada escenario</div>
+      <div class="bar-chart">
+
+        <!-- Firmado + Cambios: 3284 total. normal≈2400, sat≈700, llamada≈100, otros≈84 -->
+        <div class="bar-group">
+          <div class="bar-header">
+            <span class="bar-name">Firmado + Cambios</span>
+            <span class="bar-total">3.284</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-seg" style="width:73.1%;background:var(--col-normal)"></div>
+            <div class="bar-seg" style="width:21.3%;background:var(--col-sat)"></div>
+            <div class="bar-seg" style="width:3.0%;background:var(--col-llamada)"></div>
+            <div class="bar-seg" style="width:1.5%;background:var(--col-contacto)"></div>
+            <div class="bar-seg" style="width:0.6%;background:var(--col-texto)"></div>
+            <div class="bar-seg" style="width:0.5%;background:var(--col-receptivo)"></div>
+          </div>
+        </div>
+
+        <!-- Firmado memoria + no ha dejado cambios: 1520 -->
+        <div class="bar-group">
+          <div class="bar-header">
+            <span class="bar-name">Firmado memoria + sin cambios</span>
+            <span class="bar-total">1.520</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-seg" style="width:63.8%;background:var(--col-normal)"></div>
+            <div class="bar-seg" style="width:29.6%;background:var(--col-sat)"></div>
+            <div class="bar-seg" style="width:4.6%;background:var(--col-llamada)"></div>
+            <div class="bar-seg" style="width:1.5%;background:var(--col-contacto)"></div>
+            <div class="bar-seg" style="width:0.4%;background:var(--col-texto)"></div>
+            <div class="bar-seg" style="width:0.1%;background:var(--col-receptivo)"></div>
+          </div>
+        </div>
+
+        <!-- No ha firmado + no ha dejado cambios: 258 -->
+        <div class="bar-group">
+          <div class="bar-header">
+            <span class="bar-name">No ha firmado + sin cambios</span>
+            <span class="bar-total">258</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-seg" style="width:46.5%;background:var(--col-normal)"></div>
+            <div class="bar-seg" style="width:34.5%;background:var(--col-sat)"></div>
+            <div class="bar-seg" style="width:12.4%;background:var(--col-llamada)"></div>
+            <div class="bar-seg" style="width:5.4%;background:var(--col-contacto)"></div>
+            <div class="bar-seg" style="width:0.8%;background:var(--col-texto)"></div>
+            <div class="bar-seg" style="width:0.4%;background:var(--col-receptivo)"></div>
+          </div>
+        </div>
+
+        <!-- No ha firmado ha dejado cambios: 196 -->
+        <div class="bar-group">
+          <div class="bar-header">
+            <span class="bar-name">No ha firmado, ha dejado cambios</span>
+            <span class="bar-total">196</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-seg" style="width:41.3%;background:var(--col-normal)"></div>
+            <div class="bar-seg" style="width:37.8%;background:var(--col-sat)"></div>
+            <div class="bar-seg" style="width:14.8%;background:var(--col-llamada)"></div>
+            <div class="bar-seg" style="width:5.1%;background:var(--col-contacto)"></div>
+            <div class="bar-seg" style="width:0.6%;background:var(--col-texto)"></div>
+            <div class="bar-seg" style="width:0.4%;background:var(--col-receptivo)"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <div class="f-item"><div class="f-dot" style="background:var(--col-normal)"></div>Engagement normal · 3.673</div>
+  <div class="f-item"><div class="f-dot" style="background:var(--col-sat)"></div>Saturados · 1.184</div>
+  <div class="f-item"><div class="f-dot" style="background:var(--col-llamada)"></div>Requieren llamada · 217</div>
+  <div class="f-item"><div class="f-dot" style="background:var(--col-contacto)"></div>Sin contacto · 145</div>
+  <div class="f-item"><div class="f-dot" style="background:var(--col-texto)"></div>Requieren texto · 26</div>
+  <div class="f-item"><div class="f-dot" style="background:var(--col-receptivo)"></div>Receptivos · 13</div>
+</footer>
+
+</body>
+</html>
