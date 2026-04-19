@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Gestión de Cartera · Contactabilidad</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f5f5f2; color: #1a1a18; padding: 2rem; font-size: 14px; }
+  h1 { font-size: 22px; font-weight: 500; color: #1a1a18; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 2rem; }
+  .section-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #aaa; margin: 0 0 10px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+  .metric { background: #efefec; border-radius: 8px; padding: 14px 16px; }
+  .metric .val { font-size: 26px; font-weight: 500; color: #1a1a18; margin: 4px 0 2px; }
+  .metric .lbl { font-size: 12px; color: #666; }
+  .metric .sub { font-size: 11px; color: #aaa; margin-top: 2px; }
+  .card { background: #fff; border: 0.5px solid #e0e0da; border-radius: 12px; padding: 16px 20px; margin-bottom: 1rem; }
+  .card-title { font-size: 14px; font-weight: 500; color: #1a1a18; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { font-size: 10px; font-weight: 600; color: #888; text-align: left; padding: 5px 8px; border-bottom: 0.5px solid #e0e0da; white-space: nowrap; }
+  td { padding: 8px 8px; border-bottom: 0.5px solid #f0f0ec; color: #1a1a18; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
+  .b-g { background: #EAF3DE; color: #3B6D11; }
+  .b-a { background: #FAEEDA; color: #854F0B; }
+  .b-r { background: #FCEBEB; color: #A32D2D; }
+  .b-b { background: #E6F1FB; color: #185FA5; }
+  .b-p { background: #EEEDFE; color: #3C3489; }
+  .b-gr { background: #F1EFE8; color: #5F5E5A; }
+  .bar-wrap { background: #efefec; border-radius: 4px; height: 8px; width: 100%; overflow: hidden; display: inline-block; vertical-align: middle; }
+  .bar-fill { height: 8px; border-radius: 4px; display: block; }
+  .ch-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .ch-name { font-size: 13px; color: #1a1a18; min-width: 160px; }
+  .ch-val { font-size: 13px; font-weight: 500; min-width: 50px; text-align: right; }
+  .divider { border: none; border-top: 0.5px solid #e0e0da; margin: 1.5rem 0; }
+  .insight-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+  .insight-num { font-size: 20px; font-weight: 500; color: #7F77DD; min-width: 30px; }
+  .insight-txt { font-size: 13px; color: #1a1a18; line-height: 1.6; }
+  .action-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 0.5px solid #f0f0ec; }
+  .action-row:last-child { border-bottom: none; }
+  .prio { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px; min-width: 100px; text-align: center; white-space: nowrap; }
+  .p1 { background: #FCEBEB; color: #A32D2D; }
+  .p2 { background: #FAEEDA; color: #854F0B; }
+  .p3 { background: #EAF3DE; color: #3B6D11; }
+  .p4 { background: #F1EFE8; color: #5F5E5A; }
+  .action-content .title { font-size: 13px; font-weight: 500; color: #1a1a18; margin-bottom: 2px; }
+  .action-content .desc { font-size: 12px; color: #888; }
+  .header-bar { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .note { font-size: 11px; color: #aaa; }
+  @media(max-width:700px){
+    .grid-4{grid-template-columns:repeat(2,1fr);}
+    .grid-2{grid-template-columns:1fr;}
+    body{padding:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<h1>Dashboard Ejecutivo · Gestión de Cartera</h1>
+<p class="subtitle">Análisis de contactabilidad · 5.258 clientes · Backlog activo</p>
+
+<!-- KPIs -->
+<p class="section-label">Resumen ejecutivo</p>
+<div class="grid-4">
+  <div class="metric"><div class="lbl">Total clientes</div><div class="val">5.258</div><div class="sub">backlog activo</div></div>
+  <div class="metric"><div class="lbl">Contactados</div><div class="val">99,7%</div><div class="sub">5.244 clientes</div></div>
+  <div class="metric"><div class="lbl">Tasa de respuesta</div><div class="val">60,2%</div><div class="sub">última interacción exitosa</div></div>
+  <div class="metric"><div class="lbl">Intentos promedio</div><div class="val">105</div><div class="sub">por cliente · máx. 948</div></div>
+</div>
+<div class="grid-4">
+  <div class="metric"><div class="lbl">Sin actividad últimos 30d</div><div class="val">512</div><div class="sub">9,7% de la cartera</div></div>
+  <div class="metric"><div class="lbl">Nunca contactados</div><div class="val">14</div><div class="sub">prioridad máxima</div></div>
+  <div class="metric"><div class="lbl">Canal principal</div><div class="val">Email</div><div class="sub">48% del contacto total</div></div>
+  <div class="metric"><div class="lbl">Contacto inbound</div><div class="val">17%</div><div class="sub">vs. 83% outbound</div></div>
+</div>
+
+<hr class="divider">
+
+<!-- ESCENARIOS -->
+<p class="section-label">Segmentación por escenario</p>
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Escenario</th>
+        <th style="text-align:center">Clientes</th>
+        <th style="text-align:center">% cartera</th>
+        <th style="text-align:center">Tasa respuesta</th>
+        <th style="text-align:center">Sin actividad 30d</th>
+        <th>Canal dominante</th>
+        <th>Avg intentos</th>
+        <th>Insight clave</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge b-b">Firmado + Cambios</span></td>
+        <td style="text-align:center;font-weight:500">3.284</td>
+        <td style="text-align:center">62,5%</td>
+        <td style="text-align:center"><span class="badge b-g">60,3%</span></td>
+        <td style="text-align:center"><span class="badge b-a">399 · 12,1%</span></td>
+        <td>Email 53%</td>
+        <td style="text-align:center">98</td>
+        <td style="color:#888">399 sin contacto reciente requieren reactivación urgente.</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-p">Firmado · sin cambios</span></td>
+        <td style="text-align:center;font-weight:500">1.520</td>
+        <td style="text-align:center">28,9%</td>
+        <td style="text-align:center"><span class="badge b-a">54,7%</span></td>
+        <td style="text-align:center"><span class="badge b-g">102 · 6,7%</span></td>
+        <td>Email 45%</td>
+        <td style="text-align:center">120</td>
+        <td style="color:#888">Más intensivos. Pendientes de dejar cambios. Mayor uso de llamada (21%).</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-r">Sin firma · sin cambios</span></td>
+        <td style="text-align:center;font-weight:500">258</td>
+        <td style="text-align:center">4,9%</td>
+        <td style="text-align:center"><span class="badge b-g">60,8%</span></td>
+        <td style="text-align:center"><span class="badge b-g">6 · 2,3%</span></td>
+        <td>Intercom / Ringover 39%</td>
+        <td style="text-align:center">110</td>
+        <td style="color:#888">Bloqueo legal/firma. Llamada directa para desbloquear.</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-a">Sin firma · dejó cambios</span></td>
+        <td style="text-align:center;font-weight:500">196</td>
+        <td style="text-align:center">3,7%</td>
+        <td style="text-align:center"><span class="badge b-g">59,3%</span></td>
+        <td style="text-align:center"><span class="badge b-g">5 · 2,6%</span></td>
+        <td>Intercom 46%</td>
+        <td style="text-align:center">102</td>
+        <td style="color:#888">Muy activos. El cliente avanzó pero no formalizó. Quick win.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="divider">
+
+<!-- CANALES -->
+<p class="section-label">Efectividad por canal</p>
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Tasa de éxito · última interacción por canal</div>
+    <div class="ch-row"><div class="ch-name">SMS (Twilio)</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#1D9E75"></div></div></div><div class="ch-val"><span class="badge b-g">100%</span></div></div>
+    <div class="ch-row"><div class="ch-name">WhatsApp</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:87.5%;background:#1D9E75"></div></div></div><div class="ch-val"><span class="badge b-g">87,5%</span></div></div>
+    <div class="ch-row"><div class="ch-name">Bot</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:83.9%;background:#1D9E75"></div></div></div><div class="ch-val"><span class="badge b-g">83,9%</span></div></div>
+    <div class="ch-row"><div class="ch-name">Email (HubSpot)</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:69.3%;background:#378ADD"></div></div></div><div class="ch-val"><span class="badge b-b">69,3%</span></div></div>
+    <div class="ch-row"><div class="ch-name">Ringover (llamada)</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:65.3%;background:#378ADD"></div></div></div><div class="ch-val"><span class="badge b-b">65,3%</span></div></div>
+    <div class="ch-row"><div class="ch-name">Intercom (mensaje)</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:44.9%;background:#EF9F27"></div></div></div><div class="ch-val"><span class="badge b-a">44,9%</span></div></div>
+    <div class="ch-row" style="margin-bottom:0"><div class="ch-name">Twilio (llamada)</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:34.4%;background:#E24B4A"></div></div></div><div class="ch-val"><span class="badge b-r">34,4%</span></div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Volumen acumulado · Ringover vs Intercom</div>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:11px;color:#888;margin-bottom:6px">Ringover (llamadas) · 136.365 interacciones totales</div>
+      <div class="ch-row" style="margin-bottom:5px"><div class="ch-name" style="font-size:12px;min-width:80px">Exitosas</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:43.2%;background:#1D9E75"></div></div></div><div class="ch-val"><span class="badge b-g">43,2%</span></div></div>
+      <div class="ch-row"><div class="ch-name" style="font-size:12px;min-width:80px">Fallidas</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:56.8%;background:#E24B4A"></div></div></div><div class="ch-val"><span class="badge b-r">56,8%</span></div></div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:11px;color:#888;margin-bottom:6px">Intercom (mensajes) · 64.986 interacciones totales</div>
+      <div class="ch-row" style="margin-bottom:5px"><div class="ch-name" style="font-size:12px;min-width:80px">Exitosas</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:44.3%;background:#1D9E75"></div></div></div><div class="ch-val"><span class="badge b-g">44,3%</span></div></div>
+      <div class="ch-row" style="margin-bottom:0"><div class="ch-name" style="font-size:12px;min-width:80px">Fallidas</div><div style="flex:1"><div class="bar-wrap"><div class="bar-fill" style="width:55.7%;background:#E24B4A"></div></div></div><div class="ch-val"><span class="badge b-r">55,7%</span></div></div>
+    </div>
+    <div style="background:#efefec;border-radius:8px;padding:12px">
+      <div style="font-size:11px;color:#888">Canal más eficiente en alto volumen</div>
+      <div style="font-size:13px;font-weight:500;color:#1a1a18;margin-top:3px">Email HubSpot · 48% de cobertura con 69,3% de efectividad</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- TIPOLOGIAS -->
+<p class="section-label">Tipología de clientes · segmentación accionable</p>
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo de cliente</th>
+        <th style="text-align:center">Clientes</th>
+        <th style="text-align:center">% cartera</th>
+        <th>Perfil</th>
+        <th>Canal sugerido</th>
+        <th style="text-align:center">Prioridad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge b-r">Nunca contactados</span></td><td style="text-align:center;font-weight:500">14</td><td style="text-align:center">0,3%</td><td style="color:#888">Sin ninguna interacción registrada</td><td>Llamada inmediata (Ringover)</td><td style="text-align:center"><span class="prio p1">P1 · Urgente</span></td></tr>
+      <tr><td><span class="badge b-a">Baja gestión</span></td><td style="text-align:center;font-weight:500">79</td><td style="text-align:center">1,5%</td><td style="color:#888">Solo 1–2 intentos de contacto</td><td>Llamada + mensaje simultáneo</td><td style="text-align:center"><span class="prio p1">P1 · Urgente</span></td></tr>
+      <tr><td><span class="badge b-g">Alta respuesta</span></td><td style="text-align:center;font-weight:500">3.835</td><td style="text-align:center">72,9%</td><td style="color:#888">Responden &gt;50% de los intentos</td><td>Acelerar gestión · canal preferido</td><td style="text-align:center"><span class="prio p2">P2 · Alto</span></td></tr>
+      <tr><td><span class="badge b-b">Respuesta media</span></td><td style="text-align:center;font-weight:500">1.167</td><td style="text-align:center">22,2%</td><td style="color:#888">Responden 20–49% de los intentos</td><td>Cambiar canal · añadir WhatsApp</td><td style="text-align:center"><span class="prio p2">P2 · Alto</span></td></tr>
+      <tr><td><span class="badge b-r">Baja / sin respuesta</span></td><td style="text-align:center;font-weight:500">162</td><td style="text-align:center">3,1%</td><td style="color:#888">Múltiples intentos, tasa &lt;20%</td><td>Redefinir estrategia o pausar</td><td style="text-align:center"><span class="prio p3">P3 · Revisar</span></td></tr>
+      <tr><td><span class="badge b-gr">Over-gestionados</span></td><td style="text-align:center;font-weight:500">1</td><td style="text-align:center">&lt;0,1%</td><td style="color:#888">&gt;15 intentos con 0 respuestas</td><td>Escalar a otro responsable</td><td style="text-align:center"><span class="prio p4" style="background:#F1EFE8;color:#5F5E5A">P4 · Escalar</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr class="divider">
+
+<!-- PRODUCTOS -->
+<p class="section-label">Distribución por producto</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem">
+  <div class="card" style="margin-bottom:0"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><span style="font-size:14px;font-weight:500">WEB</span><span class="badge b-b">2.509 · 47,7%</span></div><p style="font-size:12px;color:#888">1.736 alta respuesta (69%). Email dominante. 92 con baja respuesta requieren acción urgente.</p></div>
+  <div class="card" style="margin-bottom:0"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><span style="font-size:14px;font-weight:500">SEO</span><span class="badge b-p">1.386 · 26,4%</span></div><p style="font-size:12px;color:#888">1.071 alta respuesta. Mayor uso de Ringover. Avg 89 intentos — más eficiente que la media.</p></div>
+  <div class="card" style="margin-bottom:0"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><span style="font-size:14px;font-weight:500">RRSS</span><span class="badge b-g">1.248 · 23,7%</span></div><p style="font-size:12px;color:#888">947 alta respuesta (75,9%). Canal Intercom preferido. Menor pendiente de firma.</p></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.5rem">
+  <div class="card" style="margin-bottom:0"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><span style="font-size:14px;font-weight:500">ECOMMERCE</span><span class="badge b-a">112 · 2,1%</span></div><p style="font-size:12px;color:#888">78 alta respuesta (69,6%). 6 con baja respuesta deben priorizarse por ticket alto del producto.</p></div>
+  <div class="card" style="margin-bottom:0"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><span style="font-size:14px;font-weight:500">ANALÍTICA</span><span class="badge b-gr">3 · &lt;0,1%</span></div><p style="font-size:12px;color:#888">Los 3 clientes con alta respuesta (92,6%). Atención individualizada recomendada.</p></div>
+</div>
+
+<hr class="divider">
+
+<!-- HALLAZGOS -->
+<p class="section-label">Hallazgos estratégicos</p>
+<div class="card">
+  <div class="insight-row"><div class="insight-num">01</div><div class="insight-txt"><strong>Canal mal distribuido vs. efectividad real.</strong> El 48% de contactos se hace por email, pero WhatsApp (87,5%) y Bot (83,9%) tienen tasas de éxito significativamente más altas. Escalar estos canales incrementaría la efectividad global sin aumentar el volumen de intentos.</div></div>
+  <div class="insight-row"><div class="insight-num">02</div><div class="insight-txt"><strong>512 clientes sin actividad en 30 días son el riesgo más inmediato.</strong> Concentrados en "Firmado + Cambios" (399), representan proyectos firmados y pagados que no avanzan. Cada día sin contacto aumenta el riesgo de reclamación o cancelación.</div></div>
+  <div class="insight-row"><div class="insight-num">03</div><div class="insight-txt"><strong>Los escenarios sin firma tienen tasas de respuesta superiores al 59%.</strong> No son clientes difíciles, están trabados por proceso. Una llamada directa orientada al desbloqueo tiene alta probabilidad de avance inmediato.</div></div>
+  <div class="insight-row"><div class="insight-num">04</div><div class="insight-txt"><strong>Twilio llamada tiene la peor efectividad (34,4%) del portafolio de canales.</strong> Ringover supera a Twilio en 31 puntos porcentuales para el mismo tipo de contacto. Revisar si Twilio sigue justificado o redirigir el volumen.</div></div>
+  <div class="insight-row" style="margin-bottom:0"><div class="insight-num">05</div><div class="insight-txt"><strong>105 intentos promedio por cliente indica sobregestión generalizada.</strong> Con 83% de contacto saliente y solo 17% inbound, la gestión es reactiva-expulsora. Incluir triggers de respuesta en los mensajes podría aumentar el inbound y reducir esfuerzo del equipo.</div></div>
+</div>
+
+<hr class="divider">
+
+<!-- PLAN DE ACCION -->
+<p class="section-label">Plan de acción priorizado</p>
+<div class="card">
+  <div class="action-row"><span class="prio p1">P1 · HOY</span><div class="action-content"><div class="title">Llamada inmediata a los 14 nunca contactados + 79 de baja gestión</div><div class="desc">93 clientes · canal Ringover · asignar a gestor dedicado hoy</div></div></div>
+  <div class="action-row"><span class="prio p1">P1 · HOY</span><div class="action-content"><div class="title">Reactivar los 512 clientes sin actividad en últimos 30 días</div><div class="desc">Priorizar los 399 de "Firmado + Cambios" — proyectos pagados sin avance</div></div></div>
+  <div class="action-row"><span class="prio p1">P1 · ESTA SEMANA</span><div class="action-content"><div class="title">Llamada de desbloqueo a los 454 clientes sin firma</div><div class="desc">Alta tasa de respuesta (&gt;59%) · gestión enfocada en firma y avance de proyecto</div></div></div>
+  <div class="action-row"><span class="prio p2">P2 · ESTA SEMANA</span><div class="action-content"><div class="title">Acelerar gestión de los 3.835 clientes con alta respuesta</div><div class="desc">Usar canal de preferencia · objetivo: cierre o entrega de proyecto</div></div></div>
+  <div class="action-row"><span class="prio p2">P2 · ESTE MES</span><div class="action-content"><div class="title">Cambiar canal para los 1.167 clientes con respuesta media</div><div class="desc">Introducir WhatsApp/SMS · añadir link de acción en mensajes</div></div></div>
+  <div class="action-row"><span class="prio p3">P3 · REVISAR</span><div class="action-content"><div class="title">Auditar los 162 clientes con baja/nula respuesta</div><div class="desc">Decidir: escalar, cambiar responsable o pausar y reasignar recurso</div></div></div>
+  <div class="action-row"><span class="prio p4" style="background:#F1EFE8;color:#5F5E5A">P4 · PROCESO</span><div class="action-content"><div class="title">Migrar volumen de Twilio a Ringover y escalar WhatsApp</div><div class="desc">Twilio 34% vs Ringover 65% · WhatsApp 87% con uso mínimo actual</div></div></div>
+</div>
+
+<p style="font-size:11px;color:#aaa;text-align:center;margin-top:2rem">Dashboard generado con Claude · Análisis de cartera · Datos: Analisis_de_BL.xlsx</p>
+</body>
+</html>

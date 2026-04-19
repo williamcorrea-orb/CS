@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Combinado · Escenario × Producto × Perfil</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f5f5f2; color: #1a1a18; padding: 2rem; font-size: 14px; }
+  h1 { font-size: 22px; font-weight: 500; color: #1a1a18; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 2rem; }
+  .section-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #aaa; margin: 0 0 10px; }
+  .card { background: #fff; border: 0.5px solid #e0e0da; border-radius: 12px; padding: 16px 20px; margin-bottom: 1rem; }
+  .divider { border: none; border-top: 0.5px solid #e0e0da; margin: 1.5rem 0; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
+  .b-g { background: #EAF3DE; color: #3B6D11; }
+  .b-a { background: #FAEEDA; color: #854F0B; }
+  .b-r { background: #FCEBEB; color: #A32D2D; }
+  .b-b { background: #E6F1FB; color: #185FA5; }
+  .b-p { background: #EEEDFE; color: #3C3489; }
+  .b-gr { background: #F1EFE8; color: #5F5E5A; }
+
+  /* FILTER */
+  .filter-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+  .fbtn { font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid #ccc; background: #fff; color: #666; cursor: pointer; transition: all .15s; }
+  .fbtn:hover { background: #f5f5f2; }
+  .fbtn.active { background: #efefec; color: #1a1a18; border-color: #aaa; font-weight: 600; }
+
+  /* LEGEND */
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 1rem; font-size: 12px; color: #666; }
+  .leg-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 4px; vertical-align: middle; }
+
+  /* STACKED BARS */
+  .sbar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .sbar-lbl { font-size: 12px; color: #1a1a18; min-width: 95px; }
+  .sbar-lbl .esc-tag { font-size: 10px; color: #aaa; display: block; }
+  .sbar { flex: 1; display: flex; height: 22px; border-radius: 4px; overflow: hidden; }
+  .sbar-seg { height: 22px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: rgba(255,255,255,.9); }
+  .sbar-tot { font-size: 12px; color: #888; min-width: 40px; text-align: right; }
+
+  /* HEATMAP TABLE */
+  .matrix-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { font-size: 10px; font-weight: 600; color: #888; text-align: left; padding: 6px 8px; border-bottom: 0.5px solid #e0e0da; white-space: nowrap; }
+  th.center { text-align: center; }
+  td { padding: 7px 8px; border-bottom: 0.5px solid #f0f0ec; color: #1a1a18; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr.esc-divider td { border-top: 1px solid #e0e0da; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .cell .n { font-size: 13px; font-weight: 500; }
+  .cell .p { font-size: 10px; color: #aaa; }
+  .rate-pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 10px; }
+
+  /* ALERTS */
+  .alert { border-radius: 8px; padding: 10px 14px; font-size: 12px; margin-bottom: 8px; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+  .alert.red { background: #FCEBEB; color: #A32D2D; }
+  .alert.amber { background: #FAEEDA; color: #854F0B; }
+  .alert.green { background: #EAF3DE; color: #3B6D11; }
+  .alert-icon { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
+
+  /* QUADRANTS */
+  .qgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .qcard { border-radius: 8px; padding: 14px 16px; }
+  .qcard .qt { font-size: 11px; font-weight: 600; margin-bottom: 5px; }
+  .qcard .qb { font-size: 20px; font-weight: 500; margin-bottom: 5px; }
+  .qcard .qd { font-size: 11px; line-height: 1.6; opacity: .85; }
+
+  @media(max-width:700px){
+    body { padding: 1rem; }
+    .qgrid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Dashboard Combinado · Escenario × Producto × Perfil</h1>
+<p class="subtitle">Vista cruzada de 18 combinaciones · 5.258 clientes · Backlog activo</p>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span><span class="leg-dot" style="background:#1D9E75"></span>Alta respuesta</span>
+  <span><span class="leg-dot" style="background:#378ADD"></span>Respuesta media</span>
+  <span><span class="leg-dot" style="background:#EF9F27"></span>Baja respuesta</span>
+  <span><span class="leg-dot" style="background:#888780"></span>Baja gestión</span>
+  <span><span class="leg-dot" style="background:#D4537E"></span>Nunca contactado</span>
+  <span><span class="leg-dot" style="background:#E24B4A"></span>Over-gestionado</span>
+</div>
+
+<!-- FILTROS -->
+<div class="filter-row" id="filterRow">
+  <button class="fbtn active" data-filter="all">Todos los escenarios</button>
+  <button class="fbtn" data-filter="FC">Firmado + Cambios</button>
+  <button class="fbtn" data-filter="FM">Firmado · sin cambios</button>
+  <button class="fbtn" data-filter="NF">Sin firma · sin cambios</button>
+  <button class="fbtn" data-filter="NC">Sin firma · dejó cambios</button>
+</div>
+
+<!-- STACKED BARS -->
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px">
+    <span style="font-size:14px;font-weight:500">Distribución de perfiles · escenario × producto</span>
+    <span style="font-size:11px;color:#aaa">n = total clientes por celda</span>
+  </div>
+  <div id="barsContainer"></div>
+</div>
+
+<!-- HEATMAP -->
+<div class="card" style="padding:14px">
+  <div style="font-size:14px;font-weight:500;margin-bottom:12px;padding:0 6px">Mapa de calor · composición y tasa de respuesta</div>
+  <div class="matrix-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Escenario</th>
+          <th>Producto</th>
+          <th class="center">Alta resp.</th>
+          <th class="center">Resp. media</th>
+          <th class="center">Baja resp.</th>
+          <th class="center">Baja gest.</th>
+          <th class="center">Nunca</th>
+          <th class="center">Total</th>
+          <th class="center">% Respuesta</th>
+        </tr>
+      </thead>
+      <tbody id="heatBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ALERTS -->
+<p class="section-label">Señales clave por combinación</p>
+<div id="alertsContainer"></div>
+
+<hr class="divider">
+
+<!-- QUADRANTS -->
+<p class="section-label">Combinaciones destacadas</p>
+<div class="qgrid" id="qgrid"></div>
+
+<p style="font-size:11px;color:#aaa;text-align:center;margin-top:2rem">Dashboard generado con Claude · Vista combinada · Datos: Analisis_de_BL.xlsx</p>
+
+<script>
+const DATA = [
+  {esc:"FC",escLabel:"Firmado + Cambios",prod:"ECOMMERCE",AR:50,RM:18,BR:4,BG:1,NC:1,OG:0,total:74,rate:58.5},
+  {esc:"FC",escLabel:"Firmado + Cambios",prod:"RRSS",AR:451,RM:108,BR:12,BG:6,NC:0,OG:0,total:577,rate:59.8},
+  {esc:"FC",escLabel:"Firmado + Cambios",prod:"SEO",AR:903,RM:195,BR:16,BG:34,NC:2,OG:0,total:1150,rate:64.4},
+  {esc:"FC",escLabel:"Firmado + Cambios",prod:"WEB",AR:1059,RM:359,BR:42,BG:20,NC:3,OG:0,total:1483,rate:57.8},
+  {esc:"FM",escLabel:"Firmado · sin cambios",prod:"ANALITICA",AR:2,RM:0,BR:0,BG:0,NC:0,OG:0,total:2,rate:92.6},
+  {esc:"FM",escLabel:"Firmado · sin cambios",prod:"ECOMMERCE",AR:18,RM:3,BR:2,BG:0,NC:0,OG:0,total:23,rate:50.1},
+  {esc:"FM",escLabel:"Firmado · sin cambios",prod:"RRSS",AR:406,RM:112,BR:20,BG:3,NC:2,OG:0,total:543,rate:60.9},
+  {esc:"FM",escLabel:"Firmado · sin cambios",prod:"SEO",AR:123,RM:31,BR:7,BG:2,NC:1,OG:0,total:164,rate:61.2},
+  {esc:"FM",escLabel:"Firmado · sin cambios",prod:"WEB",AR:504,RM:228,BR:44,BG:9,NC:2,OG:1,total:788,rate:50.4},
+  {esc:"NF",escLabel:"Sin firma · sin cambios",prod:"ANALITICA",AR:1,RM:0,BR:0,BG:0,NC:0,OG:0,total:1,rate:55.1},
+  {esc:"NF",escLabel:"Sin firma · sin cambios",prod:"ECOMMERCE",AR:3,RM:3,BR:0,BG:0,NC:1,OG:0,total:7,rate:43.0},
+  {esc:"NF",escLabel:"Sin firma · sin cambios",prod:"RRSS",AR:70,RM:23,BR:5,BG:0,NC:1,OG:0,total:99,rate:59.7},
+  {esc:"NF",escLabel:"Sin firma · sin cambios",prod:"SEO",AR:36,RM:15,BR:2,BG:1,NC:0,OG:0,total:54,rate:61.9},
+  {esc:"NF",escLabel:"Sin firma · sin cambios",prod:"WEB",AR:71,RM:22,BR:4,BG:0,NC:0,OG:0,total:97,rate:62.8},
+  {esc:"NC",escLabel:"Sin firma · dejó cambios",prod:"ECOMMERCE",AR:7,RM:1,BR:0,BG:0,NC:0,OG:0,total:8,rate:64.2},
+  {esc:"NC",escLabel:"Sin firma · dejó cambios",prod:"RRSS",AR:20,RM:9,BR:0,BG:0,NC:0,OG:0,total:29,rate:59.1},
+  {esc:"NC",escLabel:"Sin firma · dejó cambios",prod:"SEO",AR:9,RM:7,BR:2,BG:0,NC:0,OG:0,total:18,rate:49.3},
+  {esc:"NC",escLabel:"Sin firma · dejó cambios",prod:"WEB",AR:102,RM:33,BR:2,BG:3,NC:1,OG:0,total:141,rate:60.2},
+];
+
+const ESC_COLORS = {FC:"#185FA5",FM:"#7F77DD",NF:"#D85A30",NC:"#BA7517"};
+const PROD_COLORS = {WEB:"#378ADD",SEO:"#7F77DD",RRSS:"#1D9E75",ECOMMERCE:"#EF9F27",ANALITICA:"#888780"};
+const SEGS = [
+  {k:"AR",label:"Alta",color:"#1D9E75"},
+  {k:"RM",label:"Media",color:"#378ADD"},
+  {k:"BR",label:"Baja",color:"#EF9F27"},
+  {k:"BG",label:"B.G.",color:"#888780"},
+  {k:"NC",label:"NC",color:"#D4537E"},
+  {k:"OG",label:"OG",color:"#E24B4A"},
+];
+
+let activeFilter = "all";
+
+function filtered() {
+  return activeFilter === "all" ? DATA : DATA.filter(d => d.esc === activeFilter);
+}
+
+function rateColor(r) { return r >= 62 ? "#3B6D11" : r >= 55 ? "#854F0B" : "#A32D2D"; }
+function rateBg(r)    { return r >= 62 ? "#EAF3DE" : r >= 55 ? "#FAEEDA" : "#FCEBEB"; }
+
+function renderBars() {
+  const c = document.getElementById("barsContainer");
+  c.innerHTML = "";
+  filtered().forEach(d => {
+    const row = document.createElement("div");
+    row.className = "sbar-row";
+
+    const lbl = document.createElement("div");
+    lbl.className = "sbar-lbl";
+    lbl.innerHTML = `<span class="esc-tag">${d.escLabel}</span><strong>${d.prod}</strong>`;
+
+    const bar = document.createElement("div");
+    bar.className = "sbar";
+    SEGS.forEach(s => {
+      const v = d[s.k];
+      if (v === 0) return;
+      const pct = v / d.total * 100;
+      const seg = document.createElement("div");
+      seg.className = "sbar-seg";
+      seg.style.width = pct + "%";
+      seg.style.background = s.color;
+      if (pct > 7) seg.textContent = Math.round(pct) + "%";
+      seg.title = `${s.label}: ${v} (${Math.round(pct)}%)`;
+      bar.appendChild(seg);
+    });
+
+    const tot = document.createElement("div");
+    tot.className = "sbar-tot";
+    tot.textContent = d.total.toLocaleString("es");
+
+    row.appendChild(lbl);
+    row.appendChild(bar);
+    row.appendChild(tot);
+    c.appendChild(row);
+  });
+}
+
+function renderHeat() {
+  const tbody = document.getElementById("heatBody");
+  tbody.innerHTML = "";
+  let prevEsc = "";
+  filtered().forEach(d => {
+    const tr = document.createElement("tr");
+    if (d.esc !== prevEsc) tr.classList.add("esc-divider");
+
+    const tdEsc = document.createElement("td");
+    if (d.esc !== prevEsc) {
+      tdEsc.innerHTML = `<span style="color:${ESC_COLORS[d.esc]};font-weight:600;font-size:11px">${d.escLabel}</span>`;
+    }
+    prevEsc = d.esc;
+
+    const tdProd = document.createElement("td");
+    tdProd.innerHTML = `<span class="badge" style="background:${PROD_COLORS[d.prod]}22;color:${PROD_COLORS[d.prod]};font-size:11px">${d.prod}</span>`;
+
+    function cell(v, tot, color) {
+      const td = document.createElement("td");
+      td.style.textAlign = "center";
+      if (v === 0) { td.innerHTML = `<span style="color:#ddd">—</span>`; return td; }
+      const pct = Math.round(v / tot * 100);
+      const alpha = Math.max(12, Math.round(pct * 0.7)).toString(16).padStart(2,"0");
+      td.style.background = color + alpha;
+      td.innerHTML = `<div class="cell"><span class="n">${v}</span><span class="p">${pct}%</span></div>`;
+      return td;
+    }
+
+    const tdRate = document.createElement("td");
+    tdRate.style.textAlign = "center";
+    tdRate.innerHTML = `<span class="rate-pill" style="background:${rateBg(d.rate)};color:${rateColor(d.rate)}">${Math.round(d.rate)}%</span>`;
+
+    const tdTot = document.createElement("td");
+    tdTot.style.textAlign = "center";
+    tdTot.innerHTML = `<strong>${d.total.toLocaleString("es")}</strong>`;
+
+    tr.appendChild(tdEsc);
+    tr.appendChild(tdProd);
+    tr.appendChild(cell(d.AR, d.total, "#1D9E75"));
+    tr.appendChild(cell(d.RM, d.total, "#378ADD"));
+    tr.appendChild(cell(d.BR, d.total, "#EF9F27"));
+    tr.appendChild(cell(d.BG, d.total, "#888780"));
+    tr.appendChild(cell(d.NC, d.total, "#D4537E"));
+    tr.appendChild(tdTot);
+    tr.appendChild(tdRate);
+    tbody.appendChild(tr);
+  });
+}
+
+function renderAlerts() {
+  const alerts = [
+    {type:"red", msg:"<strong>Riesgo inmediato · FC·WEB:</strong> 42 clientes con baja respuesta y 20 con baja gestión (62 oportunidades perdidas en el producto más grande de la cartera)."},
+    {type:"red", msg:"<strong>Bloqueo crítico · FM·WEB:</strong> 44 sin respuesta y 1 over-gestionado. 788 proyectos firmados sin avance en cambios — la combinación más estancada del backlog."},
+    {type:"amber", msg:"<strong>Atención · FM·RRSS y NC·SEO:</strong> 20 y 2 clientes con baja respuesta respectivamente. En ambos casos el canal actual no está funcionando — cambiar estrategia."},
+    {type:"green", msg:"<strong>Quick wins · NC·ECOMMERCE (64,2%) y NF·WEB (62,8%):</strong> tasas más altas entre los no firmados. Alta probabilidad de cierre con una llamada enfocada esta semana."},
+    {type:"green", msg:"<strong>Modelo a replicar · FC·SEO:</strong> 64,4% de respuesta con solo 89 intentos promedio. Es la combinación más eficiente en volumen alto — analizar su proceso para exportarlo."},
+  ];
+  const c = document.getElementById("alertsContainer");
+  c.innerHTML = "";
+  alerts.forEach(a => {
+    const div = document.createElement("div");
+    div.className = "alert " + (a.type === "red" ? "red" : a.type === "green" ? "green" : "amber");
+    div.innerHTML = `<span class="alert-icon">${a.type === "red" ? "⚑" : a.type === "green" ? "✓" : "!"}</span><span>${a.msg}</span>`;
+    c.appendChild(div);
+  });
+}
+
+function renderQuadrants() {
+  const items = [
+    {title:"Mejor combinación · volumen alto",big:"FC · SEO",detail:"1.150 clientes · 64,4% respuesta<br/>903 alta respuesta · avg 89 intentos<br/>Canal email + llamada · eficiencia máxima",bg:"#EAF3DE",tc:"#3B6D11"},
+    {title:"Mayor riesgo · urgente",big:"FM · WEB",detail:"788 clientes · 50,4% respuesta<br/>44 baja resp + 1 over-gestionado<br/>Firmados sin dejar cambios · canal saturado",bg:"#FCEBEB",tc:"#A32D2D"},
+    {title:"Quick win · sin firma",big:"NC · WEB",detail:"141 clientes · 60,2% respuesta<br/>102 de alta respuesta<br/>Dejaron cambios, no firmaron · empujar firma",bg:"#E6F1FB",tc:"#185FA5"},
+    {title:"Segmento a rescatar · ticket alto",big:"NF · ECOMMERCE",detail:"7 clientes · solo 43% respuesta<br/>Canal actual fallando<br/>Asignar llamada directa urgente",bg:"#FAEEDA",tc:"#854F0B"},
+  ];
+  const qg = document.getElementById("qgrid");
+  qg.innerHTML = "";
+  items.forEach(q => {
+    const d = document.createElement("div");
+    d.className = "qcard";
+    d.style.background = q.bg;
+    d.innerHTML = `<div class="qt" style="color:${q.tc}">${q.title}</div><div class="qb" style="color:${q.tc}">${q.big}</div><div class="qd" style="color:${q.tc}">${q.detail}</div>`;
+    qg.appendChild(d);
+  });
+}
+
+document.getElementById("filterRow").addEventListener("click", e => {
+  const btn = e.target.closest(".fbtn");
+  if (!btn) return;
+  document.querySelectorAll(".fbtn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  activeFilter = btn.dataset.filter;
+  renderBars();
+  renderHeat();
+});
+
+renderAlerts();
+renderQuadrants();
+renderBars();
+renderHeat();
+</script>
+</body>
+</html>
