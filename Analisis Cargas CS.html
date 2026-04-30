@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de Cargas CS · Customer Success</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #1a1a1a;
+    --dark: #2c2c2a;
+    --mid: #5f5e5a;
+    --light: #b4b2a9;
+    --xlight: #f1efe8;
+    --white: #ffffff;
+    --page: #f4f2ee;
+    --red-bg: #fcebeb; --red-tx: #791f1f;
+    --amb-bg: #faeeda; --amb-tx: #633806;
+    --blu-bg: #e6f1fb; --blu-tx: #0c447c;
+    --border: rgba(0,0,0,0.1);
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--page);
+    color: var(--dark);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .page { max-width: 960px; margin: 0 auto; padding: 48px 28px 96px; }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    flex-direction: column;
+    border-left: 5px solid var(--black);
+    padding-left: 24px;
+    margin-bottom: 48px;
+  }
+  .header-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--light); margin-bottom: 8px;
+  }
+  .header-title {
+    font-size: 32px; font-weight: 700; color: var(--black);
+    line-height: 1.2; margin-bottom: 10px;
+  }
+  .header-sub { font-size: 15px; color: var(--mid); margin-bottom: 16px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 20px; }
+  .meta-item { font-size: 12px; color: var(--light); }
+  .meta-item strong { color: var(--mid); font-weight: 600; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 48px; }
+
+  .sec-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--black);
+  }
+  .sec-num {
+    font-size: 11px; font-weight: 800; letter-spacing: .1em;
+    color: var(--white); background: var(--black);
+    padding: 4px 10px; border-radius: 4px;
+    text-transform: uppercase; flex-shrink: 0;
+  }
+  .sec-title {
+    font-size: 17px; font-weight: 700; color: var(--black); letter-spacing: -.01em;
+  }
+
+  /* ── KPI ── */
+  .kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .kpi {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 24px 28px;
+    border-top: 3px solid var(--black);
+  }
+  .kpi-num { font-size: 42px; font-weight: 700; color: var(--black); line-height: 1; }
+  .kpi-unit { font-size: 15px; font-weight: 400; color: var(--mid); margin-left: 6px; }
+  .kpi-label { font-size: 13px; color: var(--mid); margin-top: 8px; line-height: 1.5; }
+
+  .insight-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--black);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    font-size: 14px; color: var(--mid); line-height: 1.65;
+  }
+  .insight-box strong { color: var(--black); }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 5px; }
+  .tag-r { background: var(--red-bg); color: var(--red-tx); }
+  .tag-a { background: var(--amb-bg); color: var(--amb-tx); }
+  .tag-b { background: var(--blu-bg); color: var(--blu-tx); }
+
+  /* ── TIME TABLE ── */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--white);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 750px; }
+  thead th {
+    background: var(--xlight); color: var(--mid);
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; padding: 12px 10px; text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  thead th.prod-col { text-align: left; min-width: 80px; }
+  thead .grp-th {
+    background: var(--dark); color: var(--white);
+    font-size: 10px; font-weight: 700; letter-spacing: .08em;
+    text-align: center; padding: 8px 10px;
+    border-right: 1px solid rgba(255,255,255,0.15);
+  }
+  thead .grp-th:first-child { border-radius: var(--radius-lg) 0 0 0; }
+  thead .grp-th:last-child { border-right: none; }
+  tbody td {
+    padding: 11px 10px; text-align: center;
+    border-bottom: 1px solid var(--xlight);
+    font-weight: 700; color: var(--black); font-size: 13px;
+  }
+  tbody td.prod-col {
+    text-align: left; background: var(--xlight);
+    font-weight: 800; font-size: 13px; color: var(--black);
+    border-right: 1px solid var(--border);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #ede9e0; }
+  tbody tr:hover td.prod-col { background: #e4e0d7; }
+  .tbd { color: var(--light) !important; font-weight: 400 !important; font-style: italic; font-size: 12px !important; }
+  .tbdx { color: var(--amb-tx) !important; font-weight: 700 !important; }
+  .col-sep { border-left: 1px solid var(--border) !important; }
+  .table-note { font-size: 12px; color: var(--light); margin-top: 10px; }
+
+  /* ── PRODUCT CARDS ── */
+  .prod-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .pc {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden;
+  }
+  .pc-head {
+    font-size: 13px; font-weight: 800; color: var(--white);
+    padding: 12px 18px; background: var(--dark);
+    letter-spacing: .03em;
+  }
+  .pc-body { padding: 14px 18px; }
+  .pi {
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 13px; color: var(--mid);
+    padding: 8px 0; border-bottom: 1px solid var(--xlight); line-height: 1.55;
+  }
+  .pi:last-child { border-bottom: none; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .dot-a { background: #BA7517; }
+  .dot-r { background: #A32D2D; }
+  .dot-b { background: #185FA5; }
+
+  /* ── GAP LIST ── */
+  .gap-list { list-style: none; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .gap-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 14px; color: var(--mid);
+    padding: 13px 18px; border-bottom: 1px solid var(--xlight); line-height: 1.6;
+  }
+  .gap-list li:last-child { border-bottom: none; }
+  .gi {
+    width: 22px; height: 22px; border-radius: 5px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; margin-top: 1px;
+  }
+  .gi-r { background: var(--red-bg); color: var(--red-tx); }
+  .gi-a { background: var(--amb-bg); color: var(--amb-tx); }
+  .gi-b { background: var(--blu-bg); color: var(--blu-tx); }
+
+  /* ── RECOMMENDATIONS ── */
+  .rec-list { display: flex; flex-direction: column; gap: 10px; }
+  .rec {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 16px 20px; background: var(--white);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    transition: border-color .15s;
+  }
+  .rec:hover { border-color: rgba(0,0,0,0.22); }
+  .rec-n {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 2px solid var(--dark); background: var(--white);
+    color: var(--dark); font-size: 13px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .rec-title { font-size: 14px; font-weight: 700; color: var(--black); margin-bottom: 5px; }
+  .rec-desc { font-size: 13px; color: var(--mid); line-height: 1.55; }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 56px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--light); flex-wrap: wrap; gap: 8px;
+  }
+
+  @media (max-width: 680px) {
+    .kpi-row { grid-template-columns: 1fr; }
+    .prod-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 24px; }
+    .sec-title { font-size: 15px; }
+  }
+  @media print {
+    body { background: white; font-size: 13px; }
+    .page { padding: 20px; max-width: 100%; }
+    .rec:hover { border-color: var(--border); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <p class="header-tag">Customer Success · Operaciones</p>
+    <h1 class="header-title">Análisis de cargas CS:<br>Contactabilidad y eficiencia operativa</h1>
+    <p class="header-sub">Diagnóstico de tiempos, brechas de herramientas y oportunidades de mejora por producto</p>
+    <div class="meta-row">
+      <span class="meta-item"><strong>Área:</strong> Customer Success</span>
+      <span class="meta-item"><strong>Productos:</strong> RRSS · SEO · Web</span>
+      <span class="meta-item"><strong>Fecha:</strong> 29 abril 2026</span>
+      <span class="meta-item"><strong>Clasificación:</strong> Uso interno</span>
+    </div>
+  </div>
+
+  <!-- 01 HALLAZGOS -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">Hallazgos ejecutivos</h2>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi">
+        <div><span class="kpi-num">18</span><span class="kpi-unit">h / semana</span></div>
+        <p class="kpi-label">Perdidas por el equipo en intentos de contacto sin respuesta efectiva</p>
+      </div>
+      <div class="kpi">
+        <div><span class="kpi-num">3</span><span class="kpi-unit">productos</span></div>
+        <p class="kpi-label">Con brechas operativas diferenciadas en preparación, ejecución y cierre de llamada</p>
+      </div>
+    </div>
+    <div class="insight-box">
+      <strong>Insight clave —</strong> Backlog semi gestionado con tasa baja de contactabilidad, generando reproceso y mayor tiempo de gestión por caso.
+    </div>
+    <div class="tags">
+      <span class="tag tag-r">Eficiencia confundida con rapidez sin adecuada gestión</span>
+      <span class="tag tag-a">Múltiples herramientas sin integración</span>
+      <span class="tag tag-b">Brechas de contexto pre y post llamada</span>
+    </div>
+  </div>
+
+  <!-- 02 TIEMPOS -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">Resumen de tiempos por producto</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="grp-th prod-col" rowspan="2" style="background:var(--dark);color:var(--white);text-align:left">Producto</th>
+            <th class="grp-th" colspan="2">Presentación</th>
+            <th class="grp-th" colspan="2" style="border-left:1px solid rgba(255,255,255,0.15)">Entregas (FBK)</th>
+            <th class="grp-th" colspan="2" style="border-left:1px solid rgba(255,255,255,0.15)">Desbloqueos</th>
+            <th class="grp-th" colspan="2" style="border-left:1px solid rgba(255,255,255,0.15)">Vinculaciones</th>
+            <th class="grp-th" colspan="2" style="border-left:1px solid rgba(255,255,255,0.15);border-radius:0 var(--radius-lg) 0 0">Revinculaciones</th>
+          </tr>
+          <tr>
+            <th>Con LL</th><th>Sin LL</th>
+            <th class="col-sep">Con LL</th><th>Sin LL</th>
+            <th class="col-sep">Con LL</th><th>Sin LL</th>
+            <th class="col-sep">Con LL</th><th>Sin LL</th>
+            <th class="col-sep">Con LL</th><th>Sin LL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prod-col">Web</td>
+            <td>8:40</td><td>2:40</td>
+            <td class="col-sep">5:52</td><td>2:13</td>
+            <td class="col-sep">13:06</td><td>5:00</td>
+            <td class="col-sep tbd">N/A</td><td class="tbd">N/A</td>
+            <td class="col-sep tbd">N/A</td><td class="tbd">N/A</td>
+          </tr>
+          <tr>
+            <td class="prod-col">SEO</td>
+            <td>15:20</td><td>9:17</td>
+            <td class="col-sep">8:00</td><td>4:21</td>
+            <td class="col-sep">16:00</td><td>4:41</td>
+            <td class="col-sep tbd">N/A</td><td class="tbd">N/A</td>
+            <td class="col-sep tbd">N/A</td><td class="tbd">N/A</td>
+          </tr>
+          <tr>
+            <td class="prod-col">RRSS</td>
+            <td>10:30</td><td>6:10</td>
+            <td class="col-sep tbd">N/A</td><td class="tbd">N/A</td>
+            <td class="col-sep tbd">N/A</td><td class="tbd">N/A</td>
+            <td class="col-sep">12:16</td><td>7:45</td>
+            <td class="col-sep">15:00</td><td>12:07</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Tiempos expresados en mm:ss &nbsp;·&nbsp; TBD: pendiente de medición &nbsp;·&nbsp; N/A: no aplica para el producto</p>
+  </div>
+
+  <!-- 03 ANÁLISIS POR PRODUCTO -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">Análisis por producto</h2>
+    </div>
+    <div class="prod-grid">
+      <div class="pc">
+        <div class="pc-head">RRSS</div>
+        <div class="pc-body">
+          <div class="pi"><span class="dot dot-a"></span>Presentaciones más difíciles de entregar por llamada; algunas no son responsive, lo que dificulta que el cliente deje comentarios</div>
+          <div class="pi"><span class="dot dot-r"></span>Revinculaciones generan fricción: el cliente no distingue si la falla es de Metricool o de su lado</div>
+          <div class="pi"><span class="dot dot-a"></span>Ghosting frecuente; seguimiento complejo cuando el cliente responde a última hora</div>
+          <div class="pi"><span class="dot dot-b"></span>Cada llamada requiere verificar vinculaciones activas (sin alerta automática de desconexión)</div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-head">SEO</div>
+        <div class="pc-body">
+          <div class="pi"><span class="dot dot-a"></span>Preparación de llamada más extensa: verificación de accesos a hosting y contexto técnico previo</div>
+          <div class="pi"><span class="dot dot-b"></span>El cliente no da retroalimentación durante la llamada; el feedback llega de forma posterior</div>
+          <div class="pi"><span class="dot dot-a"></span>After-call más extenso: la explicación técnica requiere mayor tiempo por la complejidad del entregable</div>
+          <div class="pi"><span class="dot dot-b"></span>Entregas más ágiles cuando el cliente ya revisó la página previamente</div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-head">Web / Desbloqueos</div>
+        <div class="pc-body">
+          <div class="pi"><span class="dot dot-a"></span>Proceso multi-paso: verificar accesos, probar funcionalidad y revisar comunicaciones previas antes de actuar</div>
+          <div class="pi"><span class="dot dot-b"></span>Requiere validar estado de satisfacción y canales de contacto utilizados previamente</div>
+          <div class="pi"><span class="dot dot-a"></span>Coordinación dispersa entre herramientas para confirmar si los accesos fueron enviados</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 BRECHAS MC -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-num">04</span>
+      <h2 class="sec-title">Brechas y oportunidades del Marketing Center</h2>
+    </div>
+    <ul class="gap-list">
+      <li><span class="gi gi-r">!</span>No refleja si el cliente dejó comentarios en Markup o en presentaciones de RRSS/SEO</li>
+      <li><span class="gi gi-r">!</span>No muestra el estado de satisfacción del cliente ni el NPS</li>
+      <li><span class="gi gi-a">~</span>No expone la relación entre tickets (Helpdesk / Producción) y su causa raíz</li>
+      <li><span class="gi gi-a">~</span>Ausencia de historial de hitos del cliente: sin trayectoria visible por etapas del proceso</li>
+      <li><span class="gi gi-a">~</span>No muestra notas internas del último CS que atendió al cliente (comentarios de gestión)</li>
+      <li><span class="gi gi-b">i</span>Función actual: informe general de pendientes y trámites, no de análisis profundo del cliente</li>
+    </ul>
+  </div>
+
+  <!-- 05 MALAS PRÁCTICAS -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-num">05</span>
+      <h2 class="sec-title">Malas prácticas y actividades no core</h2>
+    </div>
+    <ul class="gap-list">
+      <li><span class="gi gi-r">!</span>Se está perdiendo la gestión consultiva — falta desarrollar mayor habilidad y criterio en el CS</li>
+      <li><span class="gi gi-r">!</span>Eficiencia confundida con velocidad: se prioriza rapidez sin una gestión adecuada del cliente</li>
+      <li><span class="gi gi-a">~</span>Los registros en Markup durante una llamada deben hacerse en tiempo real; es parte de la operación, no una tarea adicional</li>
+      <li><span class="gi gi-a">~</span>Los CS consultan múltiples herramientas en paralelo (HubSpot, ClickUp, Markup, sitio del cliente) sin una fuente unificada</li>
+      <li><span class="gi gi-a">~</span>El tiempo de análisis pre-llamada no se capitaliza para el siguiente agente que retome el caso</li>
+      <li><span class="gi gi-b">i</span>Actividades no core: atención de chat Intercom, seguimiento de casos especiales, videollamadas puntuales y gestión de tickets escalados</li>
+    </ul>
+  </div>
+
+  <!-- 06 RECOMENDACIONES -->
+  <div class="section">
+    <div class="sec-header">
+      <span class="sec-num">06</span>
+      <h2 class="sec-title">Recomendaciones</h2>
+    </div>
+    <div class="rec-list">
+      <div class="rec">
+        <div class="rec-n">1</div>
+        <div><div class="rec-title">Enriquecer el Marketing Center con contexto de gestión</div><div class="rec-desc">Incorporar historial de hitos del cliente, notas del CS, estado de satisfacción, comentarios de Markup y relación con tickets de producción.</div></div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">2</div>
+        <div><div class="rec-title">Implementar alerta automática de desvinculación en RRSS</div><div class="rec-desc">Eliminar la revisión manual en cada llamada y reducir la fricción con el cliente cuando la falla no es atribuible a él.</div></div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">3</div>
+        <div><div class="rec-title">Crear ficha de preparación de llamada reutilizable</div><div class="rec-desc">El análisis pre-llamada debe quedar documentado y ser transferible, optimizando el tiempo del siguiente agente que retome el caso.</div></div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">4</div>
+        <div><div class="rec-title">Sensibilizar al equipo sobre el balance entre eficiencia, calidad y excelente atención</div><div class="rec-desc">Establecer métricas que reflejen no solo tiempos de atención, sino calidad de gestión telefónica y escrita. Reforzar buenas prácticas con toma de tiempos diferenciada por producto.</div></div>
+      </div>
+      <div class="rec">
+        <div class="rec-n">5</div>
+        <div><div class="rec-title">Cuantificar y gestionar actividades no core</div><div class="rec-desc">Definir si Intercom continúa activo, medir su volumetría actual y establecer un límite de tiempo dedicado a tareas fuera del flujo principal.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Documento de uso interno · Customer Success</span>
+    <span>Borrador para revisión ejecutiva · Abril 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
