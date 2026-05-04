@@ -419,59 +419,82 @@ window.addEventListener('DOMContentLoaded', () => {
           <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">% ACW</th>
           <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Composición</th>
           <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Driver</th>
+          <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15);background:#2a4a2a">% Aumento<br>Capacidad ⚡</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td class="prod-col" rowspan="3">Web</td><td class="proc-col">Presentación</td><td class="col-sep">1.3</td><td>4.1</td><td>3.3</td><td class="tot-col col-sep">8.7</td><td class="col-sep">14%</td><td>47%</td><td>38%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:14%;background:#f0846a;"></div><div style="width:47%;background:#4caf7d;"></div><div style="width:38%;background:#7db8e8;"></div></div></td><td><span class="driver-core">Core+ACW</span></td></tr>
-        <tr><td class="proc-col">Entrega (FDK)</td><td class="col-sep">0.5</td><td>3.4</td><td>2.0</td><td class="tot-col col-sep">5.9</td><td class="col-sep">8%</td><td>57%</td><td>34%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:8%;background:#f0846a;"></div><div style="width:57%;background:#4caf7d;"></div><div style="width:34%;background:#7db8e8;"></div></div></td><td><span class="driver-core">Core</span></td></tr>
-        <tr><td class="proc-col">Desbloqueo</td><td class="col-sep">5.4</td><td>5.6</td><td>2.1</td><td class="tot-col col-sep">13.1</td><td class="col-sep">41%</td><td>42%</td><td>16%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:41%;background:#f0846a;"></div><div style="width:42%;background:#4caf7d;"></div><div style="width:16%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre</span></td></tr>
-        <tr class="grp-sep"><td class="prod-col" rowspan="3">SEO</td><td class="proc-col">Presentación / Avance</td><td class="col-sep">6.6</td><td>3.3</td><td>5.4</td><td class="tot-col col-sep">15.3</td><td class="col-sep">43%</td><td>22%</td><td>35%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:43%;background:#f0846a;"></div><div style="width:22%;background:#4caf7d;"></div><div style="width:35%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre+ACW</span></td></tr>
-        <tr><td class="proc-col">Entrega de proyecto</td><td class="col-sep">2.0</td><td>3.1</td><td>2.9</td><td class="tot-col col-sep">8.0</td><td class="col-sep">25%</td><td>38%</td><td>36%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:25%;background:#f0846a;"></div><div style="width:38%;background:#4caf7d;"></div><div style="width:36%;background:#7db8e8;"></div></div></td><td><span class="driver-eq">Equilibrado</span></td></tr>
-        <tr><td class="proc-col">Desbloqueo</td><td class="col-sep">5.0</td><td>6.7</td><td>4.3</td><td class="tot-col col-sep">16.0</td><td class="col-sep">31%</td><td>42%</td><td>27%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:31%;background:#f0846a;"></div><div style="width:42%;background:#4caf7d;"></div><div style="width:27%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Core+Pre</span></td></tr>
-        <tr class="grp-sep"><td class="prod-col" rowspan="3">RRSS</td><td class="proc-col">Presentación</td><td class="col-sep">4.4</td><td>3.8</td><td>2.3</td><td class="tot-col col-sep">10.5</td><td class="col-sep">42%</td><td>36%</td><td>22%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:42%;background:#f0846a;"></div><div style="width:36%;background:#4caf7d;"></div><div style="width:22%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre</span></td></tr>
-        <tr><td class="proc-col">Vinculación</td><td class="col-sep">4.9</td><td>3.1</td><td>4.3</td><td class="tot-col col-sep">12.3</td><td class="col-sep">40%</td><td>25%</td><td>35%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:40%;background:#f0846a;"></div><div style="width:25%;background:#4caf7d;"></div><div style="width:35%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre+ACW</span></td></tr>
-        <tr><td class="proc-col">Revinculación</td><td class="col-sep">6.5</td><td>3.1</td><td>5.5</td><td class="tot-col col-sep">15.0</td><td class="col-sep">43%</td><td>20%</td><td>37%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:43%;background:#f0846a;"></div><div style="width:20%;background:#4caf7d;"></div><div style="width:37%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre+ACW</span></td></tr>
+        <tr><td class="prod-col" rowspan="3">Web</td><td class="proc-col">Presentación</td><td class="col-sep">1.3</td><td>4.1</td><td>3.3</td><td class="tot-col col-sep">8.7</td><td class="col-sep">14%</td><td>47%</td><td>38%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:14%;background:#f0846a;"></div><div style="width:47%;background:#4caf7d;"></div><div style="width:38%;background:#7db8e8;"></div></div></td><td><span class="driver-core">Core+ACW</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+59%</span></td></tr>
+        <tr><td class="proc-col">Entrega (FDK)</td><td class="col-sep">0.5</td><td>3.4</td><td>2.0</td><td class="tot-col col-sep">5.9</td><td class="col-sep">8%</td><td>57%</td><td>34%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:8%;background:#f0846a;"></div><div style="width:57%;background:#4caf7d;"></div><div style="width:34%;background:#7db8e8;"></div></div></td><td><span class="driver-core">Core</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+33%</span></td></tr>
+        <tr><td class="proc-col">Desbloqueo</td><td class="col-sep">5.4</td><td>5.6</td><td>2.1</td><td class="tot-col col-sep">13.1</td><td class="col-sep">41%</td><td>42%</td><td>16%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:41%;background:#f0846a;"></div><div style="width:42%;background:#4caf7d;"></div><div style="width:16%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+67%</span></td></tr>
+        <tr class="grp-sep"><td class="prod-col" rowspan="3">SEO</td><td class="proc-col">Presentación / Avance</td><td class="col-sep">6.6</td><td>3.3</td><td>5.4</td><td class="tot-col col-sep">15.3</td><td class="col-sep">43%</td><td>22%</td><td>35%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:43%;background:#f0846a;"></div><div style="width:22%;background:#4caf7d;"></div><div style="width:35%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre+ACW</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+124%</span></td></tr>
+        <tr><td class="proc-col">Entrega de proyecto</td><td class="col-sep">2.0</td><td>3.1</td><td>2.9</td><td class="tot-col col-sep">8.0</td><td class="col-sep">25%</td><td>38%</td><td>36%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:25%;background:#f0846a;"></div><div style="width:38%;background:#4caf7d;"></div><div style="width:36%;background:#7db8e8;"></div></div></td><td><span class="driver-eq">Equilibrado</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+75%</span></td></tr>
+        <tr><td class="proc-col">Desbloqueo</td><td class="col-sep">5.0</td><td>6.7</td><td>4.3</td><td class="tot-col col-sep">16.0</td><td class="col-sep">31%</td><td>42%</td><td>27%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:31%;background:#f0846a;"></div><div style="width:42%;background:#4caf7d;"></div><div style="width:27%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Core+Pre</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+69%</span></td></tr>
+        <tr class="grp-sep"><td class="prod-col" rowspan="3">RRSS</td><td class="proc-col">Presentación</td><td class="col-sep">4.4</td><td>3.8</td><td>2.3</td><td class="tot-col col-sep">10.5</td><td class="col-sep">42%</td><td>36%</td><td>22%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:42%;background:#f0846a;"></div><div style="width:36%;background:#4caf7d;"></div><div style="width:22%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+81%</span></td></tr>
+        <tr><td class="proc-col">Vinculación</td><td class="col-sep">4.9</td><td>3.1</td><td>4.3</td><td class="tot-col col-sep">12.3</td><td class="col-sep">40%</td><td>25%</td><td>35%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:40%;background:#f0846a;"></div><div style="width:25%;background:#4caf7d;"></div><div style="width:35%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre+ACW</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+110%</span></td></tr>
+        <tr><td class="proc-col">Revinculación</td><td class="col-sep">6.5</td><td>3.1</td><td>5.5</td><td class="tot-col col-sep">15.0</td><td class="col-sep">43%</td><td>20%</td><td>37%</td><td><div style="display:flex;height:14px;border-radius:3px;overflow:hidden;min-width:80px"><div style="width:43%;background:#f0846a;"></div><div style="width:20%;background:#4caf7d;"></div><div style="width:37%;background:#7db8e8;"></div></div></td><td><span class="driver-pre">Pre+ACW</span></td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+98%</span></td></tr>
       </tbody>
     </table>
-  </div>
-  <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:8px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);width:fit-content;">
-    <span style="font-size:11px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.06em;">Composición:</span>
-    <span style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--dark);"><span style="width:14px;height:10px;border-radius:2px;background:#f0846a;display:inline-block;"></span>Pre Llamada</span>
-    <span style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--dark);"><span style="width:14px;height:10px;border-radius:2px;background:#4caf7d;display:inline-block;"></span>Gestión Core</span>
-    <span style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--dark);"><span style="width:14px;height:10px;border-radius:2px;background:#7db8e8;display:inline-block;"></span>ACW</span>
   </div>
 
-  <p style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:4px;">Simulación de capacidad · Supuesto: mejora del 70% en Pre Llamada y ACW</p>
-  <p style="font-size:12px;color:var(--mid);margin-bottom:10px;">Estimación por CS individual · Base: 420 min/día productivos (7h)</p>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="grp-th" style="text-align:left">Producto</th>
-          <th class="grp-th" style="text-align:left">Proceso</th>
-          <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Total actual<br><span style="font-weight:400;opacity:.7">(min)</span></th>
-          <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Pre+ACW<br><span style="font-weight:400;opacity:.7">actual</span></th>
-          <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Pre+ACW<br><span style="font-weight:400;opacity:.7">−70%</span></th>
-          <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Nuevo total<br><span style="font-weight:400;opacity:.7">(min)</span></th>
-          <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Cap/día<br><span style="font-weight:400;opacity:.7">actual</span></th>
-          <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Cap/día<br><span style="font-weight:400;opacity:.7">mejorado</span></th>
-          <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">% aumento<br>capacidad</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td class="prod-col" rowspan="3">Web</td><td class="proc-col">Presentación</td><td class="col-sep">8.7</td><td>4.6</td><td>1.38</td><td class="tot-col col-sep">5.48</td><td class="col-sep">48</td><td class="highlight-grn">77</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+59%</span></td></tr>
-        <tr><td class="proc-col">Entrega (FDK)</td><td class="col-sep">5.9</td><td>3.5</td><td>1.05</td><td class="tot-col col-sep">4.45</td><td class="col-sep">71</td><td class="highlight-grn">94</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+33%</span></td></tr>
-        <tr><td class="proc-col">Desbloqueo</td><td class="col-sep">13.1</td><td>7.5</td><td>2.25</td><td class="tot-col col-sep">7.85</td><td class="col-sep">32</td><td class="highlight-grn">53</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+67%</span></td></tr>
-        <tr class="grp-sep"><td class="prod-col" rowspan="3">SEO</td><td class="proc-col">Presentación / Avance</td><td class="col-sep">15.3</td><td>11.8</td><td>3.54</td><td class="tot-col col-sep">6.84</td><td class="col-sep">27</td><td class="highlight-grn">61</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+124%</span></td></tr>
-        <tr><td class="proc-col">Entrega de proyecto</td><td class="col-sep">8.0</td><td>4.9</td><td>1.47</td><td class="tot-col col-sep">4.57</td><td class="col-sep">52</td><td class="highlight-grn">92</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+75%</span></td></tr>
-        <tr><td class="proc-col">Desbloqueo</td><td class="col-sep">16.0</td><td>9.3</td><td>2.79</td><td class="tot-col col-sep">9.49</td><td class="col-sep">26</td><td class="highlight-grn">44</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+69%</span></td></tr>
-        <tr class="grp-sep"><td class="prod-col" rowspan="3">RRSS</td><td class="proc-col">Presentación</td><td class="col-sep">10.5</td><td>6.7</td><td>2.01</td><td class="tot-col col-sep">5.81</td><td class="col-sep">40</td><td class="highlight-grn">72</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+81%</span></td></tr>
-        <tr><td class="proc-col">Vinculación</td><td class="col-sep">12.3</td><td>9.2</td><td>2.76</td><td class="tot-col col-sep">5.86</td><td class="col-sep">34</td><td class="highlight-grn">72</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+110%</span></td></tr>
-        <tr><td class="proc-col">Revinculación</td><td class="col-sep">15.0</td><td>12.0</td><td>3.6</td><td class="tot-col col-sep">7.6</td><td class="col-sep">28</td><td class="highlight-grn">55</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+98%</span></td></tr>
-      </tbody>
-    </table>
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
+    <div style="display:flex;align-items:center;gap:16px;padding:8px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);">
+      <span style="font-size:11px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.06em;">Composición:</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--dark);"><span style="width:14px;height:10px;border-radius:2px;background:#f0846a;display:inline-block;"></span>Pre Llamada</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--dark);"><span style="width:14px;height:10px;border-radius:2px;background:#4caf7d;display:inline-block;"></span>Gestión Core</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--dark);"><span style="width:14px;height:10px;border-radius:2px;background:#7db8e8;display:inline-block;"></span>ACW</span>
+    </div>
+    <p style="font-size:11px;color:var(--mid);font-style:italic;">⚡ % Aumento capacidad: proyección al reducir 70% el tiempo de Pre Llamada y ACW por CS · Base: 420 min/día</p>
   </div>
-  <p class="table-note">Tiempos en minutos · N/A: no aplica · Capacidad calculada por CS individual sobre 420 min/día productivos</p>
+
+  <!-- SIMULACIÓN COLAPSABLE -->
+  <div style="border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+    <button onclick="toggleSim()" id="simBtn" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--xlight);border:none;cursor:pointer;font-size:13px;font-weight:700;color:var(--dark);">
+      <span>📊 Ver detalle · Simulación de capacidad (supuesto −70% Pre+ACW)</span>
+      <span id="simArrow" style="font-size:16px;transition:transform .2s;">▼</span>
+    </button>
+    <div id="simDetail" style="display:none;padding:16px 18px 18px;">
+      <p style="font-size:12px;color:var(--mid);margin-bottom:10px;">Estimación por CS individual · Base: 420 min/día productivos (7h)</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="grp-th" style="text-align:left">Producto</th>
+              <th class="grp-th" style="text-align:left">Proceso</th>
+              <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Total actual<br><span style="font-weight:400;opacity:.7">(min)</span></th>
+              <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Pre+ACW<br><span style="font-weight:400;opacity:.7">actual</span></th>
+              <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Pre+ACW<br><span style="font-weight:400;opacity:.7">−70%</span></th>
+              <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Nuevo total<br><span style="font-weight:400;opacity:.7">(min)</span></th>
+              <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Cap/día<br><span style="font-weight:400;opacity:.7">actual</span></th>
+              <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">Cap/día<br><span style="font-weight:400;opacity:.7">mejorado</span></th>
+              <th class="grp-th" style="border-left:1px solid rgba(255,255,255,0.15)">% aumento<br>capacidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="prod-col" rowspan="3">Web</td><td class="proc-col">Presentación</td><td class="col-sep">8.7</td><td>4.6</td><td>1.38</td><td class="tot-col col-sep">5.48</td><td class="col-sep">48</td><td class="highlight-grn">77</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+59%</span></td></tr>
+            <tr><td class="proc-col">Entrega (FDK)</td><td class="col-sep">5.9</td><td>3.5</td><td>1.05</td><td class="tot-col col-sep">4.45</td><td class="col-sep">71</td><td class="highlight-grn">94</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+33%</span></td></tr>
+            <tr><td class="proc-col">Desbloqueo</td><td class="col-sep">13.1</td><td>7.5</td><td>2.25</td><td class="tot-col col-sep">7.85</td><td class="col-sep">32</td><td class="highlight-grn">53</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+67%</span></td></tr>
+            <tr class="grp-sep"><td class="prod-col" rowspan="3">SEO</td><td class="proc-col">Presentación / Avance</td><td class="col-sep">15.3</td><td>11.8</td><td>3.54</td><td class="tot-col col-sep">6.84</td><td class="col-sep">27</td><td class="highlight-grn">61</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+124%</span></td></tr>
+            <tr><td class="proc-col">Entrega de proyecto</td><td class="col-sep">8.0</td><td>4.9</td><td>1.47</td><td class="tot-col col-sep">4.57</td><td class="col-sep">52</td><td class="highlight-grn">92</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+75%</span></td></tr>
+            <tr><td class="proc-col">Desbloqueo</td><td class="col-sep">16.0</td><td>9.3</td><td>2.79</td><td class="tot-col col-sep">9.49</td><td class="col-sep">26</td><td class="highlight-grn">44</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+69%</span></td></tr>
+            <tr class="grp-sep"><td class="prod-col" rowspan="3">RRSS</td><td class="proc-col">Presentación</td><td class="col-sep">10.5</td><td>6.7</td><td>2.01</td><td class="tot-col col-sep">5.81</td><td class="col-sep">40</td><td class="highlight-grn">72</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+81%</span></td></tr>
+            <tr><td class="proc-col">Vinculación</td><td class="col-sep">12.3</td><td>9.2</td><td>2.76</td><td class="tot-col col-sep">5.86</td><td class="col-sep">34</td><td class="highlight-grn">72</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+110%</span></td></tr>
+            <tr><td class="proc-col">Revinculación</td><td class="col-sep">15.0</td><td>12.0</td><td>3.6</td><td class="tot-col col-sep">7.6</td><td class="col-sep">28</td><td class="highlight-grn">55</td><td><span class="delta delta-pos" style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;">+98%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="table-note" style="margin-top:8px;">Tiempos en minutos · N/A: no aplica · Capacidad calculada por CS individual sobre 420 min/día productivos</p>
+
+  <script>
+  function toggleSim(){
+    const d = document.getElementById('simDetail');
+    const a = document.getElementById('simArrow');
+    const open = d.style.display === 'block';
+    d.style.display = open ? 'none' : 'block';
+    a.style.transform = open ? '' : 'rotate(180deg)';
+  }
+  </script>
 </div>
 
 <!-- 04 PLAN DE ACCIÓN -->
