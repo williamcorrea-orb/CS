@@ -30,6 +30,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .nav-tab .nav-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .nav-tab.part1 .nav-dot{background:#4caf7d;}
 .nav-tab.part2 .nav-dot{background:#7db8e8;}
+.nav-tab.part3 .nav-dot{background:#f0846a;}
 .nav-section-label{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:14px 10px 14px 16px;flex-shrink:0;}
 
 /* HEADER */
@@ -161,6 +162,35 @@ tbody tr:hover td.prod-col{background:#e4e0d7;}
 .plan-done{background:#eaf3de;color:#2a5c0a;}
 .plan-wip{background:#fef9c3;color:#854d0e;}
 .plan-pending{background:#f1f1f0;color:#5f5e5a;}
+.plan-por-iniciar{background:#e6f1fb;color:#0c447c;}
+
+/* MICRO ACTIVIDADES */
+.micro-product-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);cursor:pointer;font-size:14px;font-weight:700;color:var(--dark);margin-bottom:10px;transition:background .15s;}
+.micro-product-btn:hover{background:var(--xlight);}
+.micro-product-btn .mpb-left{display:flex;align-items:center;gap:12px;}
+.micro-badge{font-size:11px;font-weight:800;padding:4px 12px;border-radius:5px;}
+.mb-web{background:#e6f1fb;color:#0c447c;}
+.mb-seo{background:#eaf3de;color:#2a5c0a;}
+.mb-rrss{background:#faeeda;color:#633806;}
+.micro-detail{display:none;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px;}
+.micro-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.micro-col{padding:18px 20px;}
+.micro-col:first-child{border-right:1px solid var(--border);}
+.micro-col-head{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--xlight);}
+.micro-col-head.pre{color:#633806;}
+.micro-col-head.durante{color:#0c447c;}
+.micro-col-head.post{color:#2a5c0a;}
+.micro-col-head.nc{color:#791f1f;}
+.micro-row{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--xlight);gap:10px;font-size:12px;}
+.micro-row:last-child{border-bottom:none;}
+.micro-action{color:var(--dark);line-height:1.4;flex:1;}
+.micro-time{font-weight:800;color:var(--black);white-space:nowrap;font-size:12px;}
+.micro-section-label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:8px 20px;background:var(--xlight);border-bottom:1px solid var(--border);}
+.micro-section-label.pre-label{color:#633806;background:#fdf6ea;}
+.micro-section-label.durante-label{color:#0c447c;background:#eef6fd;}
+.micro-section-label.post-label{color:#2a5c0a;background:#f0f9ea;}
+.micro-section-label.nc-label{color:#791f1f;background:#fdf0f0;}
+.micro-inner{padding:10px 20px 14px;}
 
 /* PRODUCT CARDS */
 .prod-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
@@ -213,6 +243,10 @@ tbody tr:hover td.prod-col{background:#e4e0d7;}
     <button class="nav-tab part2" onclick="showTab('sec06',this)"><span class="nav-dot"></span>Marketing Center</button>
     <button class="nav-tab part2" onclick="showTab('sec07',this)"><span class="nav-dot"></span>Malas prácticas</button>
     <button class="nav-tab part2" onclick="showTab('sec08',this)"><span class="nav-dot"></span>Oportunidades</button>
+    <button class="nav-tab part2" onclick="showTab('sec09',this)"><span class="nav-dot"></span>Microactividades</button>
+    <div class="nav-divider"></div>
+    <span class="nav-section-label">Parte III</span>
+    <button class="nav-tab part3" onclick="showTab('sec10',this)"><span class="nav-dot"></span>Plan Transición CS</button>
   </div>
 </nav>
 
@@ -553,6 +587,30 @@ window.addEventListener('DOMContentLoaded', () => {
           <td>William</td>
           <td><span class="plan-badge plan-continuo">Continuo</span></td>
         </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#6</td>
+          <td class="plan-date">11-mayo</td>
+          <td><strong>Revisión contractual del equipo Revenue</strong></td>
+          <td>Revisar y alinear condiciones contractuales del equipo Revenue para asegurar claridad en roles, alcance y compromisos operativos</td>
+          <td>People / Jordi</td>
+          <td><span class="plan-badge plan-pending">Pendiente</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#7</td>
+          <td class="plan-date">Inmediato</td>
+          <td><strong>Automatización de tareas Pre y ACW para aumentar capacidad de gestión</strong></td>
+          <td>Reducir tiempo operativo no core mediante automatización de microacciones Pre llamada y ACW, liberando capacidad para actividades de mayor valor</td>
+          <td>Strike Team IA</td>
+          <td><span class="plan-badge plan-pending">Por realizar</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#8</td>
+          <td class="plan-date">12-mayo</td>
+          <td><strong>Refuerzo con TLs en gestión de capacidades y WFM</strong></td>
+          <td>Alinear a los TLs en evaluación de productividad, medición de capacidades y orientación a WFM para un mejor control y optimización de recursos del equipo</td>
+          <td>William</td>
+          <td><span class="plan-badge plan-por-iniciar">Por iniciar</span></td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -630,6 +688,278 @@ window.addEventListener('DOMContentLoaded', () => {
   <div class="rec-list">
     <div class="rec"><div class="rec-n">1</div><div><div class="rec-title">Enriquecer el Marketing Center con contexto de gestión</div><div class="rec-desc">Incorporar historial de hitos del cliente, notas del CS, estado de satisfacción, comentarios de Markup y relación con tickets de producción.</div></div></div>
     <div class="rec"><div class="rec-n">2</div><div><div class="rec-title">Crear ficha de preparación de llamada reutilizable</div><div class="rec-desc">El análisis pre-llamada debe quedar documentado y ser transferible, optimizando el tiempo del siguiente agente que retome el caso.</div></div></div>
+  </div>
+</div>
+
+<!-- 09 MICROACTIVIDADES -->
+<div class="section" id="sec09">
+  <div class="sec-header"><span class="sec-num">09</span><h2 class="sec-title">Microactividades por producto</h2></div>
+  <p style="font-size:14px;color:var(--mid);margin-bottom:20px;line-height:1.6;">Catálogo completo de microacciones identificadas en el shadowing con su tiempo medio. Son los bloques que componen cualquier gestión por producto. Selecciona un producto para ver el detalle.</p>
+
+  <!-- WEB -->
+  <button class="micro-product-btn" onclick="toggleMicro('web',this)">
+    <div class="mpb-left"><span class="micro-badge mb-web">WEB</span><span>Catálogo completo de microacciones Web</span></div>
+    <span id="arrow-web" style="font-size:16px;transition:transform .2s;">▼</span>
+  </button>
+  <div class="micro-detail" id="micro-web">
+    <div class="micro-section-label pre-label">📋 Acciones previas a la llamada</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Revisar ficha cliente + historial + notas</span><span class="micro-time">1:15</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar HS + ClickUp + diagnóstico bloqueo</span><span class="micro-time">5:24</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar estado FDK + ficha</span><span class="micro-time">0:30</span></div>
+      <div class="micro-row"><span class="micro-action">Busco cliente para llamar (búsqueda manual)</span><span class="micro-time">1:01</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar historial en HubSpot</span><span class="micro-time">0:40</span></div>
+      <div class="micro-row"><span class="micro-action">Agendar llamada en Google Calendar</span><span class="micro-time">~1:00</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar web en Markup (preparación)</span><span class="micro-time">~2:00</span></div>
+    </div>
+    <div class="micro-section-label durante-label">📞 Durante la llamada</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Ringing — espera hasta que contesta</span><span class="micro-time">0:16</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada + presentación proyecto</span><span class="micro-time">3:35</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada — recolección FDK + anotar cambios</span><span class="micro-time">3:07</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada — resolución bloqueo en línea</span><span class="micro-time">5:00</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada + gestión 2FA accesos</span><span class="micro-time">~3:00</span></div>
+      <div class="micro-row"><span class="micro-action">Videollamada — compartir pantalla</span><span class="micro-time">~10:00</span></div>
+      <div class="micro-row"><span class="micro-action">ACW — etiquetado resultado Ringover</span><span class="micro-time">0:17</span></div>
+      <div class="micro-row"><span class="micro-action" style="color:var(--red-tx)">Ringing NC — sin respuesta</span><span class="micro-time">0:44</span></div>
+    </div>
+    <div class="micro-section-label post-label">✅ Acciones tras llamada exitosa</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Actualizar estado ClickUp + HubSpot</span><span class="micro-time">2:30</span></div>
+      <div class="micro-row"><span class="micro-action">Nota HubSpot + envío PPT si aplica</span><span class="micro-time">0:47</span></div>
+      <div class="micro-row"><span class="micro-action">Pasar a CONFORME en ClickUp</span><span class="micro-time">0:15</span></div>
+      <div class="micro-row"><span class="micro-action">Crear ticket ClickUp para PROD</span><span class="micro-time">1:00</span></div>
+      <div class="micro-row"><span class="micro-action">Nota HubSpot resultado entrega</span><span class="micro-time">0:44</span></div>
+      <div class="micro-row"><span class="micro-action">Crear accesos WordPress</span><span class="micro-time">1:14</span></div>
+      <div class="micro-row"><span class="micro-action">Crear accesos Academy</span><span class="micro-time">1:42</span></div>
+      <div class="micro-row"><span class="micro-action">Enviar credenciales al cliente</span><span class="micro-time">~0:45</span></div>
+      <div class="micro-row"><span class="micro-action">Crear accesos / enviar credenciales (desbloqueo)</span><span class="micro-time">1:14</span></div>
+      <div class="micro-row"><span class="micro-action">Nota HubSpot + ticket ClickUp PROD</span><span class="micro-time">0:55</span></div>
+      <div class="micro-row"><span class="micro-action">Anotar cambios y crear ticket PROD</span><span class="micro-time">~1:30</span></div>
+    </div>
+    <div class="micro-section-label nc-label">✗ Acciones tras NC (Seguimiento)</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Envío WhatsApp / mail seguimiento</span><span class="micro-time">0:56</span></div>
+      <div class="micro-row"><span class="micro-action">Nota HubSpot — registro del intento</span><span class="micro-time">~0:30</span></div>
+      <div class="micro-row"><span class="micro-action">Envío WhatsApp + nota HubSpot (desbloqueo NC)</span><span class="micro-time">1:46</span></div>
+      <div class="micro-row"><span class="micro-action">Envío WA + nota HubSpot (entrega NC)</span><span class="micro-time">1:17</span></div>
+    </div>
+  </div>
+
+  <!-- SEO -->
+  <button class="micro-product-btn" onclick="toggleMicro('seo',this)">
+    <div class="mpb-left"><span class="micro-badge mb-seo">SEO</span><span>Catálogo completo de microacciones SEO</span></div>
+    <span id="arrow-seo" style="font-size:16px;transition:transform .2s;">▼</span>
+  </button>
+  <div class="micro-detail" id="micro-seo">
+    <div class="micro-section-label pre-label">📋 Acciones previas a la llamada</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Revisar proyectos Feedback / Frente Memoria</span><span class="micro-time">6:36</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar proyectos devueltos / con comentarios</span><span class="micro-time">5:00</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar bloqueo concreto en HS + ClickUp</span><span class="micro-time">2:00</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar estado proyecto antes de entrega</span><span class="micro-time">2:00</span></div>
+      <div class="micro-row"><span class="micro-action">Preparar llamada — dudas proyecto</span><span class="micro-time">2:03</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar Slack (NPS, reseñas, mensajes)</span><span class="micro-time">~1:00</span></div>
+    </div>
+    <div class="micro-section-label durante-label">📞 Durante la llamada</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Ringing — espera hasta que contesta</span><span class="micro-time">0:14</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada — presentación / avance proyecto</span><span class="micro-time">2:50</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada — desbloqueo (credenciales, accesos...)</span><span class="micro-time">6:30</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada — entrega / confirmación conformidad</span><span class="micro-time">2:50</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada — dudas subvención</span><span class="micro-time">~3:00</span></div>
+      <div class="micro-row"><span class="micro-action">Gestión código 2FA con cliente</span><span class="micro-time">~5:00</span></div>
+      <div class="micro-row"><span class="micro-action">ACW — etiquetado resultado Ringover</span><span class="micro-time">0:14</span></div>
+      <div class="micro-row"><span class="micro-action" style="color:var(--red-tx)">Ringing NC — sin respuesta (1er intento)</span><span class="micro-time">0:43</span></div>
+      <div class="micro-row"><span class="micro-action" style="color:var(--red-tx)">Ringing NC — buzón de voz (2º intento)</span><span class="micro-time">0:37</span></div>
+    </div>
+    <div class="micro-section-label post-label">✅ Acciones tras llamada exitosa</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Envío proyecto al cliente (Intercom / mail)</span><span class="micro-time">1:30</span></div>
+      <div class="micro-row"><span class="micro-action">Nota HubSpot resultado</span><span class="micro-time">2:00</span></div>
+      <div class="micro-row"><span class="micro-action">Avanzar estado en ClickUp</span><span class="micro-time">1:56</span></div>
+      <div class="micro-row"><span class="micro-action">Nota HubSpot + apertura ticket PROD</span><span class="micro-time">3:00</span></div>
+      <div class="micro-row"><span class="micro-action">Crear cuenta y configurar acceso Marketing Center</span><span class="micro-time">2:00</span></div>
+      <div class="micro-row"><span class="micro-action">Desbloquear proyecto GO Implementación</span><span class="micro-time">~2:00</span></div>
+    </div>
+    <div class="micro-section-label nc-label">✗ Acciones tras NC (Seguimiento)</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Envío WhatsApp de seguimiento</span><span class="micro-time">0:30</span></div>
+      <div class="micro-row"><span class="micro-action">Envío mail de seguimiento</span><span class="micro-time">0:51</span></div>
+      <div class="micro-row"><span class="micro-action">Nota HubSpot — registro del intento</span><span class="micro-time">0:30</span></div>
+      <div class="micro-row"><span class="micro-action">Apertura ticket Legal (pérdida de derecho)</span><span class="micro-time">~3:00</span></div>
+      <div class="micro-row"><span class="micro-action">Apertura ticket Legal — conflicto firma</span><span class="micro-time">~3:00</span></div>
+    </div>
+  </div>
+
+  <!-- RRSS -->
+  <button class="micro-product-btn" onclick="toggleMicro('rrss',this)">
+    <div class="mpb-left"><span class="micro-badge mb-rrss">RRSS</span><span>Catálogo completo de microacciones RRSS</span></div>
+    <span id="arrow-rrss" style="font-size:16px;transition:transform .2s;">▼</span>
+  </button>
+  <div class="micro-detail" id="micro-rrss">
+    <div class="micro-section-label pre-label">📋 Acciones previas a la llamada</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Revisar HS del cliente (estrategia, notas)</span><span class="micro-time">0:32</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar ClickUp (estado tareas y bloqueos)</span><span class="micro-time">2:25</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar PPT y permisos acceso RRSS</span><span class="micro-time">1:29</span></div>
+      <div class="micro-row"><span class="micro-action">Comprobar credenciales del cliente</span><span class="micro-time">0:29</span></div>
+      <div class="micro-row"><span class="micro-action">Búsqueda accesos en Intercom (revinculación)</span><span class="micro-time">2:30</span></div>
+      <div class="micro-row"><span class="micro-action">Prueba de acceso — verificar vigencia</span><span class="micro-time">1:00</span></div>
+      <div class="micro-row"><span class="micro-action">Revisar TKT ClickUp y comunicaciones</span><span class="micro-time">4:43</span></div>
+    </div>
+    <div class="micro-section-label durante-label">📞 Durante la llamada</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Ringing — espera hasta que contesta</span><span class="micro-time">0:16</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada vinculación + gestión 2FA</span><span class="micro-time">2:28</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada solicitar credenciales</span><span class="micro-time">2:05</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada campaña FDK (estado proyecto)</span><span class="micro-time">3:01</span></div>
+      <div class="micro-row"><span class="micro-action">Reunión / videollamada seguimiento FDK</span><span class="micro-time">5:47</span></div>
+      <div class="micro-row"><span class="micro-action">Llamada desbloqueo proyecto</span><span class="micro-time">3:07</span></div>
+      <div class="micro-row"><span class="micro-action">ACW — etiquetado resultado en Ringover</span><span class="micro-time">0:20</span></div>
+      <div class="micro-row"><span class="micro-action" style="color:var(--red-tx)">Ringing NC — sin respuesta</span><span class="micro-time">0:34</span></div>
+    </div>
+    <div class="micro-section-label post-label">✅ Acciones tras llamada exitosa</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Crear marca Metricool</span><span class="micro-time">0:43</span></div>
+      <div class="micro-row"><span class="micro-action">Vincular Instagram a Metricool</span><span class="micro-time">0:40</span></div>
+      <div class="micro-row"><span class="micro-action">Vincular LinkedIn a Metricool</span><span class="micro-time">0:30</span></div>
+      <div class="micro-row"><span class="micro-action">Asignar link Metricool en HS</span><span class="micro-time">0:44</span></div>
+      <div class="micro-row"><span class="micro-action">Añadir enlace RRSS en HS y ClickUp</span><span class="micro-time">1:26</span></div>
+      <div class="micro-row"><span class="micro-action">Añadir credenciales en HS</span><span class="micro-time">0:58</span></div>
+      <div class="micro-row"><span class="micro-action">Avanzar proyecto en ClickUp</span><span class="micro-time">0:45</span></div>
+      <div class="micro-row"><span class="micro-action">Optimizar perfil cliente RRSS</span><span class="micro-time">2:50</span></div>
+      <div class="micro-row"><span class="micro-action">Agendar nueva cita si procede</span><span class="micro-time">0:30</span></div>
+      <div class="micro-row"><span class="micro-action">Nota HubSpot resultado</span><span class="micro-time">0:46</span></div>
+      <div class="micro-row"><span class="micro-action">GO programar — registrar en HS y ClickUp</span><span class="micro-time">1:35</span></div>
+    </div>
+    <div class="micro-section-label nc-label">✗ Acciones tras NC (Seguimiento)</div>
+    <div class="micro-inner">
+      <div class="micro-row"><span class="micro-action">Envío WA legal (aviso regulatorio)</span><span class="micro-time">1:30</span></div>
+      <div class="micro-row"><span class="micro-action">Envío push WhatsApp (recordatorio)</span><span class="micro-time">2:07</span></div>
+      <div class="micro-row"><span class="micro-action">Dejar mensaje en buzón de voz</span><span class="micro-time">0:30</span></div>
+      <div class="micro-row"><span class="micro-action">Nota interna en Intercom</span><span class="micro-time">0:30</span></div>
+      <div class="micro-row"><span class="micro-action">Actualizar nota HubSpot + ghosting si aplica</span><span class="micro-time">0:46</span></div>
+      <div class="micro-row"><span class="micro-action">Responder cliente por Intercom / WA</span><span class="micro-time">1:13</span></div>
+    </div>
+  </div>
+
+  <script>
+  function toggleMicro(id, btn) {
+    const detail = document.getElementById('micro-' + id);
+    const arrow = document.getElementById('arrow-' + id);
+    const open = detail.style.display === 'block';
+    detail.style.display = open ? 'none' : 'block';
+    arrow.style.transform = open ? '' : 'rotate(180deg)';
+  }
+  </script>
+</div>
+
+<!-- ═══ PARTE III ═══ -->
+<div class="partition" style="border-left-color:#f0846a;margin-top:16px;" id="parte3">
+  <span class="partition-label">Parte III</span>
+  <span class="partition-title">Plan de Transición CS</span>
+</div>
+
+<!-- 10 PLAN TRANSICIÓN -->
+<div class="section" id="sec10">
+  <div class="sec-header"><span class="sec-num">10</span><h2 class="sec-title">Plan de Transición CS — Revenue</h2></div>
+  <p style="font-size:13px;color:var(--mid);margin-bottom:16px;">Mayo 2025</p>
+  <div class="table-wrap">
+    <table class="plan-table">
+      <thead>
+        <tr>
+          <th style="width:50px">Código</th>
+          <th style="width:90px">Fecha</th>
+          <th style="width:210px">Iniciativa / Tarea</th>
+          <th>Objetivo</th>
+          <th style="width:160px">Responsable</th>
+          <th style="width:100px">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#1</td>
+          <td class="plan-date">30-abril</td>
+          <td><strong>Definición y asignación del equipo piloto Revenue</strong></td>
+          <td>Seleccionar y asignar el primer equipo piloto para conformar y arrancar la estructura del equipo de revenue</td>
+          <td>Diana / Victor / William</td>
+          <td><span class="plan-badge plan-done">Done</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#2</td>
+          <td class="plan-date">04-mayo</td>
+          <td><strong>Segmentación de Carteras</strong></td>
+          <td>Definir y segmentar carteras para asignación estructurada al equipo revenue</td>
+          <td>Sebas Parra</td>
+          <td><span class="plan-badge plan-done">Done</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#3</td>
+          <td class="plan-date">04-mayo</td>
+          <td><strong>Asignación de cartera por equipo revenue</strong></td>
+          <td>Distribuir carteras segmentadas al equipo de revenue según capacidad y perfil</td>
+          <td>Victor</td>
+          <td><span class="plan-badge plan-done">Done</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#4</td>
+          <td class="plan-date">05-mayo</td>
+          <td><strong>Configuración de Intercom + centralización inbound en Satisfaction</strong></td>
+          <td>Unificar y canalizar todas las bandejas de entrada para mejorar control y eficiencia</td>
+          <td>Victor</td>
+          <td><span class="plan-badge plan-wip">WIP</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#5</td>
+          <td class="plan-date">05-mayo</td>
+          <td><strong>"Handover" Procesos CS</strong></td>
+          <td>Transferir metodologías, capacidades, best practices y modelos de medición del equipo CS</td>
+          <td>William</td>
+          <td><span class="plan-badge plan-wip">WIP</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#6</td>
+          <td class="plan-date">06-mayo</td>
+          <td><strong>Creación equipo de becarios (prealistamiento CS)</strong></td>
+          <td>Reducir carga operativa "no call" (agendamientos, pre-llamadas)</td>
+          <td>William / Victor</td>
+          <td><span class="plan-badge plan-wip">WIP</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#7</td>
+          <td class="plan-date">06-mayo</td>
+          <td><strong>Sensibilizar al equipo sobre balance eficiencia, calidad y excelente atención</strong></td>
+          <td>Interiorizar que la calidad de la gestión prevalece sobre la velocidad. Establecer tiempos promedio de atención que reflejen una interacción completa, efectiva y diferenciada por producto</td>
+          <td>William / Victor</td>
+          <td><span class="plan-badge plan-pending">Por realizar</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#8</td>
+          <td class="plan-date">07-mayo</td>
+          <td><strong>"Handover" Helpdesk a Producción</strong></td>
+          <td>Transferir volúmenes, capacidades y equipo del Helpdesk hacia el área de producción</td>
+          <td>Victor</td>
+          <td><span class="plan-badge plan-wip">WIP</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#9</td>
+          <td class="plan-date">15-mayo</td>
+          <td><strong>Plan de transición CS (equipo full)</strong></td>
+          <td>Consolidar y ejecutar la transición completa del equipo CS hacia el modelo revenue</td>
+          <td>Diana / Victor / William</td>
+          <td><span class="plan-badge plan-wip">WIP</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--mid);text-align:center">#10</td>
+          <td class="plan-date">11-mayo</td>
+          <td><strong>Revisión contractual del equipo Revenue</strong></td>
+          <td>Revisar y alinear condiciones contractuales del equipo Revenue para asegurar claridad en roles, alcance y compromisos operativos</td>
+          <td>People / Jordi</td>
+          <td><span class="plan-badge plan-pending">Pendiente</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
