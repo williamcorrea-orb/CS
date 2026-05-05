@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Transición CS - Revenue</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F5F3EE;
+    color: #1A1A18;
+    min-height: 100vh;
+    padding: 48px 40px;
+  }
+
+  .wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .badge {
+    background: #1A1A18;
+    color: #F5F3EE;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .title {
+    font-size: 22px;
+    font-weight: 500;
+    color: #1A1A18;
+    letter-spacing: -0.02em;
+  }
+
+  .meta {
+    margin-left: auto;
+    font-size: 12px;
+    color: #888780;
+    font-family: 'DM Mono', monospace;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 0.5px solid #D3D1C7;
+  }
+
+  thead tr {
+    background: #1A1A18;
+  }
+
+  thead th {
+    padding: 13px 16px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 500;
+    color: #888780;
+    letter-spacing: 0.08em;
+    font-family: 'DM Mono', monospace;
+  }
+
+  tbody tr {
+    border-bottom: 0.5px solid #ECEAE4;
+    transition: background 0.15s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #FAFAF7; }
+
+  td {
+    padding: 16px;
+    font-size: 13px;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .td-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: #888780;
+  }
+
+  .td-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #5F5E5A;
+    white-space: nowrap;
+  }
+
+  .td-task {
+    font-weight: 500;
+    color: #1A1A18;
+  }
+
+  .td-obj {
+    color: #5F5E5A;
+    font-size: 12.5px;
+  }
+
+  .td-resp {
+    color: #1A1A18;
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+
+  .badge-done {
+    display: inline-block;
+    background: #EAF3DE;
+    color: #3B6D11;
+    font-size: 10px;
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+  }
+
+  .badge-wip {
+    display: inline-block;
+    background: #FAEEDA;
+    color: #854F0B;
+    font-size: 10px;
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+  }
+
+  .badge-pending {
+    display: inline-block;
+    background: #ECEAE4;
+    color: #5F5E5A;
+    font-size: 10px;
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+  }
+
+  .footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #888780;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .dot-done { background: #639922; }
+  .dot-wip { background: #EF9F27; }
+  .dot-pending { background: #B4B2A9; }
+
+  .print-date {
+    font-size: 11px;
+    color: #B4B2A9;
+    font-family: 'DM Mono', monospace;
+  }
+
+  @media print {
+    body { background: #fff; padding: 24px; }
+    tbody tr:hover { background: transparent; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <span class="title">Plan de Transición CS — Revenue</span>
+    <span class="meta">Mayo 2025</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:6%">CÓDIGO</th>
+        <th style="width:10%">FECHA</th>
+        <th style="width:24%">INICIATIVA / TAREA</th>
+        <th style="width:36%">OBJETIVO</th>
+        <th style="width:14%">RESPONSABLE</th>
+        <th style="width:10%">ESTADO</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td class="td-code">#1</td>
+        <td class="td-date">30-abril</td>
+        <td class="td-task">Definición y asignación del equipo piloto Revenue</td>
+        <td class="td-obj">Seleccionar y asignar el primer equipo piloto para conformar y arrancar la estructura del equipo de revenue</td>
+        <td class="td-resp">Diana / Victor / William</td>
+        <td><span class="badge-done">Done</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#2</td>
+        <td class="td-date">04-mayo</td>
+        <td class="td-task">Segmentación de Carteras</td>
+        <td class="td-obj">Definir y segmentar carteras para asignación estructurada al equipo revenue</td>
+        <td class="td-resp">Sebas Parra</td>
+        <td><span class="badge-done">Done</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#3</td>
+        <td class="td-date">04-mayo</td>
+        <td class="td-task">Asignación de cartera por equipo revenue</td>
+        <td class="td-obj">Distribuir carteras segmentadas al equipo de revenue según capacidad y perfil</td>
+        <td class="td-resp">Victor</td>
+        <td><span class="badge-done">Done</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#4</td>
+        <td class="td-date">05-mayo</td>
+        <td class="td-task">Configuración de Intercom + centralización inbound en Satisfaction</td>
+        <td class="td-obj">Unificar y canalizar todas las bandejas de entrada para mejorar control y eficiencia</td>
+        <td class="td-resp">Victor</td>
+        <td><span class="badge-wip">WIP</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#5</td>
+        <td class="td-date">05-mayo</td>
+        <td class="td-task">"Handover" Procesos CS</td>
+        <td class="td-obj">Transferir metodologías, capacidades, best practices y modelos de medición del equipo CS</td>
+        <td class="td-resp">William</td>
+        <td><span class="badge-wip">WIP</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#6</td>
+        <td class="td-date">06-mayo</td>
+        <td class="td-task">Creación equipo de becarios (prealistamiento CS)</td>
+        <td class="td-obj">Reducir carga operativa "no call" (agendamientos, pre-llamadas)</td>
+        <td class="td-resp">William / Victor</td>
+        <td><span class="badge-wip">WIP</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#7</td>
+        <td class="td-date">06-mayo</td>
+        <td class="td-task">Sensibilizar al equipo sobre balance eficiencia, calidad y excelente atención</td>
+        <td class="td-obj">Interiorizar que la calidad de la gestión prevalece sobre la velocidad. Establecer tiempos promedio de atención que reflejen una interacción completa, efectiva y diferenciada por producto</td>
+        <td class="td-resp">William / Victor</td>
+        <td><span class="badge-pending">Por realizar</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#8</td>
+        <td class="td-date">07-mayo</td>
+        <td class="td-task">"Handover" Helpdesk a Producción</td>
+        <td class="td-obj">Transferir volúmenes, capacidades y equipo del Helpdesk hacia el área de producción</td>
+        <td class="td-resp">Victor</td>
+        <td><span class="badge-wip">WIP</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#9</td>
+        <td class="td-date">15-mayo</td>
+        <td class="td-task">Plan de transición CS (equipo full)</td>
+        <td class="td-obj">Consolidar y ejecutar la transición completa del equipo CS hacia el modelo revenue</td>
+        <td class="td-resp">Diana / Victor / William</td>
+        <td><span class="badge-wip">WIP</span></td>
+      </tr>
+
+      <tr>
+        <td class="td-code">#10</td>
+        <td class="td-date">11-mayo</td>
+        <td class="td-task">Revisión contractual del equipo Revenue</td>
+        <td class="td-obj">Revisar y alinear condiciones contractuales del equipo Revenue para asegurar claridad en roles, alcance y compromisos operativos</td>
+        <td class="td-resp">People / Jordi</td>
+        <td><span class="badge-pending">Pendiente</span></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div class="legend">
+      <div class="legend-item"><div class="dot dot-done"></div>Done</div>
+      <div class="legend-item"><div class="dot dot-wip"></div>WIP</div>
+      <div class="legend-item"><div class="dot dot-pending"></div>Por realizar</div>
+    </div>
+    <span class="print-date">Generado: 04-mayo-2026</span>
+  </div>
+
+</div>
+</body>
+</html>
