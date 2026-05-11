@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis Outbound CS - Gestión RingOver | Marzo vs Abril 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lato:wght@300;400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1628;--gold:#c9960c;--gold2:#e8bf5a;--gold3:#f0d080;
+  --bg:#f7f5f1;--surface:#fff;--surface2:#f2efe9;
+  --border:#ddd8cc;--divider:#e8e4dc;--muted:#6a7a8a;--steel:#8894aa;
+  --text:#1a1f2e;--text2:#333;
+  --green:#1a7a4a;--green-bg:#e8f5ee;--green-bd:#a8d8be;--green-t:#155e38;
+  --yellow:#a06b00;--yellow-bg:#fdf3dc;--yellow-bd:#e8c96a;--yellow-t:#7a5000;
+  --red:#9b1c1c;--red-bg:#fdf0f0;--red-bd:#e8a8a8;--red-t:#7a1515;
+  --fs-sec:22px;--fs-card:15px;--fs-body:13px;--fs-label:10px;
+  --fs-kpi:32px;--fs-tbl:13px;--fs-thdr:10px;--fs-meta:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);font-size:var(--fs-body);line-height:1.7;}
+.nav-bar{background:var(--navy);border-bottom:2px solid var(--gold);padding:0 48px;display:flex;align-items:stretch;}
+.nav-tab{padding:16px 28px;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:#aabbd4;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:color 0.2s;}
+.nav-tab:hover{color:#fff;}.nav-tab.active{color:#fff;border-bottom-color:var(--gold);}
+.nav-brand{margin-left:auto;display:flex;align-items:center;padding:0 0 0 28px;border-left:1px solid rgba(212,160,23,0.25);}
+.nav-brand-title{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--gold2);}
+.page{display:none;padding:0 0 80px;}.page.active{display:block;}
+.masthead{background:var(--navy);padding:44px 48px 40px;}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold2);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--gold);}
+.h-title{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;line-height:1.1;color:#fff;}
+.h-title em{font-style:italic;color:var(--gold2);}
+.h-sub{font-size:14px;color:#fff;font-weight:300;margin-top:12px;opacity:0.85;}
+.h-meta{margin-top:22px;display:flex;gap:40px;}
+.meta-l{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.meta-v{font-size:var(--fs-meta);color:#fff;font-weight:300;opacity:0.9;}
+.gold-rule{height:3px;background:linear-gradient(90deg,var(--gold) 0%,var(--gold2) 40%,transparent 100%);}
+.content{padding:36px 48px 0;}
+.sec-header{display:flex;align-items:center;gap:16px;margin:44px 0 22px;}
+.sec-num{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--gold);min-width:72px;border-right:1px solid var(--gold);padding-right:14px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:var(--fs-sec);font-weight:700;color:var(--text);}
+.sub-label{font-size:var(--fs-label);font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:12px;margin-top:24px;}
+.callout{border-radius:6px;padding:18px 22px;margin-bottom:18px;display:flex;gap:14px;align-items:flex-start;}
+.callout.navy{background:var(--navy);border:1px solid rgba(212,160,23,0.3);border-left:4px solid var(--gold);}
+.callout.red{background:var(--red-bg);border:1px solid var(--red-bd);border-left:4px solid var(--red);}
+.callout.yellow{background:var(--yellow-bg);border:1px solid var(--yellow-bd);border-left:4px solid var(--yellow);}
+.callout.green{background:var(--green-bg);border:1px solid var(--green-bd);border-left:4px solid var(--green);}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
+.callout-title{font-weight:700;font-size:12px;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.07em;}
+.callout.navy .callout-title{color:var(--gold2);}.callout.red .callout-title{color:var(--red-t);}
+.callout.yellow .callout-title{color:var(--yellow-t);}.callout.green .callout-title{color:var(--green-t);}
+.callout-text{font-size:var(--fs-body);line-height:1.65;}
+.callout.navy .callout-text{color:#fff;}.callout.red .callout-text{color:#6b2020;}
+.callout.yellow .callout-text{color:#5a3d00;}.callout.green .callout-text{color:#1a4a30;}
+.tag{display:inline-block;padding:3px 10px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;white-space:nowrap;}
+.tg{background:var(--green-bg);color:var(--green-t);border:1px solid var(--green-bd);}
+.ty{background:var(--yellow-bg);color:var(--yellow-t);border:1px solid var(--yellow-bd);}
+.tr{background:var(--red-bg);color:var(--red-t);border:1px solid var(--red-bd);}
+.tn{background:rgba(10,22,40,0.07);color:#2a3a55;border:1px solid rgba(10,22,40,0.15);}
+.tw{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px;}
+table{width:100%;border-collapse:collapse;background:var(--surface);}
+thead tr{background:var(--navy);}
+th{padding:10px 12px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:var(--fs-thdr);font-weight:600;text-transform:uppercase;letter-spacing:0.11em;color:#fff;border-bottom:2px solid var(--gold);white-space:nowrap;}
+th.mar{color:#b8d4f8;}th.abr{color:var(--gold3);}th.delta{color:#9fe0c0;}
+td{padding:8px 12px;border-bottom:1px solid var(--divider);font-size:var(--fs-tbl);color:var(--text2);}
+tbody tr:last-child td{border-bottom:none;}tbody tr:hover{background:#faf8f4;}
+tbody tr.total-row td{background:#f0ece3;font-weight:700;border-top:1px solid var(--border);}
+tbody tr.level-head td{background:var(--surface2);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.11em;color:var(--muted);padding:5px 14px;}
+tbody tr.level-head.green-head td{background:#e0f2e9;color:#0d4a2a;}
+tbody tr.level-head.red-head td{background:#fce8e8;color:#6b1515;}
+.kpi5{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:16px;}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 18px;}
+.kpi-card.green{border-top:3px solid var(--green);}.kpi-card.yellow{border-top:3px solid var(--yellow);}
+.kpi-card.red{border-top:3px solid var(--red);}.kpi-card.gold{border-top:3px solid var(--gold);}
+.kpi-label{font-size:var(--fs-label);font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:10px;}
+.kpi-value{font-family:'Playfair Display',serif;font-size:var(--fs-kpi);font-weight:700;color:var(--text);line-height:1;margin-bottom:5px;}
+.kpi-value.sm{font-size:26px;}.kpi-sub{font-size:12px;color:var(--muted);}
+.kpi-delta{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;margin-top:4px;}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:20px;}
+.team-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.team-head{padding:11px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;}
+.team-head.ft{background:var(--red-bg);color:var(--red-t);border-bottom:2px solid var(--red);}
+.team-head.web{background:var(--yellow-bg);color:var(--yellow-t);border-bottom:2px solid var(--yellow);}
+.team-head.rrss{background:var(--green-bg);color:var(--green-t);border-bottom:2px solid var(--green);}
+.team-head.seo{background:var(--green-bg);color:var(--green-t);border-bottom:2px solid var(--green);}
+.team-row{display:grid;grid-template-columns:1fr 56px 56px 46px;align-items:center;padding:7px 16px;border-bottom:1px solid var(--divider);}
+.team-row:last-child{border-bottom:none;}.team-row.hdr{background:var(--surface2);}
+.tr-label{font-size:var(--fs-body);}.tr-cell{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text2);text-align:right;}
+.tr-delta{font-family:'JetBrains Mono',monospace;font-size:11px;text-align:right;}
+.verdict-badge{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;grid-column:1/-1;}
+.cause-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:20px;}
+.cause-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.cause-head{padding:12px 16px;font-size:var(--fs-label);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;}
+.cause-head.red{background:var(--red-bg);color:var(--red-t);border-bottom:2px solid var(--red);}
+.cause-head.yellow{background:var(--yellow-bg);color:var(--yellow-t);border-bottom:2px solid var(--yellow);}
+.cause-head.navy-h{background:var(--navy);color:#fff;border-bottom:2px solid #2a4a7a;}
+.cause-head.gold-h{background:var(--navy);color:var(--gold2);border-bottom:2px solid var(--gold);}
+.cause-body{padding:16px;}
+.cause-period{display:flex;gap:8px;margin-bottom:11px;padding-bottom:11px;border-bottom:1px solid var(--divider);align-items:flex-start;}
+.cause-period:last-of-type{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.cp-badge{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;text-transform:uppercase;padding:3px 6px;border-radius:3px;flex-shrink:0;margin-top:2px;}
+.cp-mar{background:rgba(10,22,40,0.1);color:#1a2a40;}.cp-abr{background:var(--yellow-bg);color:var(--yellow-t);border:1px solid var(--yellow-bd);}
+.cp-ext{background:rgba(10,22,40,0.1);color:#1a2a40;}.cp-esp{background:var(--red-bg);color:var(--red-t);border:1px solid var(--red-bd);}
+.cp-hip{background:#f0e8ff;color:#4a2d8a;border:1px solid #c8a8f8;}
+.cp-text{font-size:var(--fs-body);color:var(--text2);line-height:1.6;}
+.cp-text ul{margin:4px 0 0 14px;}.cp-text li{margin-bottom:2px;}
+.cause-conclusion{margin-top:12px;padding:10px 12px;background:var(--surface2);border-radius:5px;border-left:3px solid var(--gold);}
+.cc-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--gold);margin-bottom:3px;}
+.cc-text{font-size:12px;color:var(--muted);line-height:1.55;}
+.rec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.rec-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.rec-head{padding:13px 18px;font-size:var(--fs-label);font-weight:700;text-transform:uppercase;letter-spacing:0.12em;}
+.rec-head.short{background:var(--red-bg);color:var(--red-t);border-bottom:2px solid var(--red);}
+.rec-head.mid{background:var(--yellow-bg);color:var(--yellow-t);border-bottom:2px solid var(--yellow);}
+.rec-head.long{background:var(--navy);color:#fff;border-bottom:2px solid var(--gold);}
+.rec-body{padding:18px;}
+.rec-item{display:flex;gap:10px;margin-bottom:16px;line-height:1.65;}
+.rec-item:last-child{margin-bottom:0;}
+.rec-num{color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;flex-shrink:0;padding-top:2px;font-weight:700;}
+.rec-title{font-weight:700;font-size:var(--fs-card);color:var(--text);display:block;margin-bottom:4px;}
+.rec-desc{font-size:var(--fs-body);color:var(--text2);}
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.reg-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:22px;}
+.reg-head{font-size:var(--fs-label);font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--divider);}
+.reg-item{display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;}
+.reg-bullet{color:var(--gold);font-size:14px;flex-shrink:0;line-height:1.4;}
+.reg-text{font-size:var(--fs-body);color:var(--text2);line-height:1.6;}
+.reg-source{font-size:10px;color:var(--muted);margin-top:3px;font-style:italic;}
+.footer-bar{background:var(--navy);padding:18px 48px;display:flex;justify-content:space-between;align-items:center;margin-top:60px;}
+.footer-bar span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#aabbd4;}
+.footer-brand{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--gold2);}
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <div class="nav-tab active" onclick="showPage('exec',this)">Resumen Ejecutivo</div>
+  <div class="nav-tab" onclick="showPage('detail',this)">Análisis de Soporte</div>
+  <div class="nav-brand"><div class="nav-brand-title">Análisis Outbound CS · Gestión RingOver</div></div>
+</div>
+
+<!-- ═══ RESUMEN EJECUTIVO ═══ -->
+<div id="exec" class="page active">
+<div class="masthead">
+  <div class="eyebrow">Análisis Comparativo · Marzo vs. Abril 2026</div>
+  <div class="h-title">Análisis Outbound CS · <em>Gestión RingOver</em></div>
+  <div class="h-sub">Diagnóstico de contactabilidad · ¿Dónde accionar? · Fuente: Ringover</div>
+  <div class="h-meta">
+    <div><div class="meta-l">Marzo 2026</div><div class="meta-v">24.984 llamadas outbound</div></div>
+    <div><div class="meta-l">Abril 2026</div><div class="meta-v">20.687 llamadas outbound</div></div>
+  </div>
+</div>
+<div class="gold-rule"></div>
+
+<div class="content">
+<div class="callout navy" style="margin-top:32px;">
+  <div class="callout-icon">◆</div>
+  <div>
+    <div class="callout-title">Veredicto Ejecutivo</div>
+    <div class="callout-text">Entre Marzo y Abril hubo una <strong style="color:var(--gold3);">mejora real pero insuficiente</strong>: el contacto real subió de 31% a 34% (+7.6%), y el abandono prematuro de agente bajó de 58% a 43% (−25%). Sin embargo, ambos indicadores siguen en zona crítica y <strong style="color:var(--gold3);">la base de datos empeoró</strong> (números nulos: de 27% a 31%, +16.5%). El problema tiene tres causas simultáneas controlables: <strong style="color:var(--gold3);">(1) agentes que cuelgan antes del tiempo mínimo</strong>, <strong style="color:var(--gold3);">(2) base de datos con números muertos sin depurar</strong>, y <strong style="color:var(--gold3);">(3) volumen concentrado en franjas de baja contactabilidad</strong>.</div>
+  </div>
+</div>
+
+<!-- I: MÉTRICAS -->
+<div class="sec-header">
+  <div class="sec-num">Sección I</div>
+  <div class="sec-title">Métricas Globales — Marzo vs. Abril</div>
+</div>
+<div class="kpi5">
+  <div class="kpi-card gold">
+    <div class="kpi-label">Contacto Real Global</div>
+    <div class="kpi-value sm">31% → 34%</div>
+    <div class="kpi-delta" style="color:var(--green);">▲ +7.6%</div>
+    <div class="kpi-sub" style="margin-top:5px;">Mejora marginal — bajo umbral 40%</div>
+  </div>
+  <div class="kpi-card red">
+    <div class="kpi-label">Agente Cuelga Prematuro s/NC</div>
+    <div class="kpi-value sm">58% → 43%</div>
+    <div class="kpi-delta" style="color:var(--green);">▲ −25%</div>
+    <div class="kpi-sub" style="margin-top:5px;">Mejora significativa — aún crítico</div>
+  </div>
+  <div class="kpi-card red">
+    <div class="kpi-label">Base Telefónica Nula (0%)</div>
+    <div class="kpi-value sm">27% → 31%</div>
+    <div class="kpi-delta" style="color:var(--red);">▼ +16.5%</div>
+    <div class="kpi-sub" style="margin-top:5px;">Deterioro — más números muertos</div>
+  </div>
+  <div class="kpi-card green">
+    <div class="kpi-label">Contacto Real — Abril</div>
+    <div class="kpi-value">34%</div>
+    <div class="kpi-sub">6.982 llamadas · habló con agente &gt;20s</div>
+  </div>
+  <div class="kpi-card yellow">
+    <div class="kpi-label">Contestadora / Pospuesta</div>
+    <div class="kpi-value">23%</div>
+    <div class="kpi-sub">4.716 llamadas · oportunidad de reintento</div>
+  </div>
+</div>
+
+<div class="tw">
+  <table>
+    <thead><tr>
+      <th style="width:33%;">Métrica</th>
+      <th class="mar" style="width:12%;text-align:right;">Mar 2026</th>
+      <th class="abr" style="width:12%;text-align:right;">Abr 2026</th>
+      <th class="delta" style="width:13%;text-align:right;">Δ Relativo</th>
+      <th style="width:15%;text-align:center;">Tendencia</th>
+    </tr></thead>
+    <tbody>
+      <tr class="total-row"><td>Total llamadas</td><td style="text-align:right;">24.984</td><td style="text-align:right;">20.687</td><td style="text-align:right;color:var(--muted);">−17.2%</td><td style="text-align:center;"><span class="tag ty">↓ Volumen</span></td></tr>
+      <tr class="level-head"><td colspan="5" style="padding-left:14px;">Nivel 1 — Sobre el total de llamadas</td></tr>
+      <tr><td style="padding-left:24px;">Contestadas</td><td style="text-align:right;">57%</td><td style="text-align:right;">57%</td><td style="text-align:right;color:var(--muted);">−1.4%</td><td style="text-align:center;"><span class="tag ty">↓ Leve</span></td></tr>
+      <tr><td style="padding-left:24px;">No contestadas</td><td style="text-align:right;">43%</td><td style="text-align:right;">44%</td><td style="text-align:right;color:var(--red);font-weight:700;">+2.3%</td><td style="text-align:center;"><span class="tag tr">↓ Deterioro</span></td></tr>
+      <tr class="level-head green-head"><td colspan="5" style="padding-left:14px;">Nivel 2A — De las contestadas (base = contestadas)</td></tr>
+      <tr><td style="padding-left:36px;">Contacto real (&gt;20s)</td><td style="text-align:right;">55%</td><td style="text-align:right;">60%</td><td style="text-align:right;color:var(--green);font-weight:700;">+9.1%</td><td style="text-align:center;"><span class="tag tg">↑ Mejora</span></td></tr>
+      <tr><td style="padding-left:36px;">Buzón / No efectiva (≤20s)</td><td style="text-align:right;">45%</td><td style="text-align:right;">40%</td><td style="text-align:right;color:var(--green);font-weight:700;">−11.1%</td><td style="text-align:center;"><span class="tag tg">↑ Mejora</span></td></tr>
+      <tr class="level-head red-head"><td colspan="5" style="padding-left:14px;">Nivel 2B — De las no contestadas (base = NC)</td></tr>
+      <tr><td style="padding-left:36px;">Rechazada por cliente</td><td style="text-align:right;">18%</td><td style="text-align:right;">23%</td><td style="text-align:right;color:var(--red);font-weight:700;">+27.8%</td><td style="text-align:center;"><span class="tag tr">↓ Deterioro</span></td></tr>
+      <tr style="background:rgba(155,28,28,0.03);"><td style="padding-left:36px;font-weight:700;">Colgada por agente</td><td style="text-align:right;">58%</td><td style="text-align:right;">43%</td><td style="text-align:right;color:var(--green);font-weight:700;">−25.9%</td><td style="text-align:center;"><span class="tag tg">↑ Mejora sig.</span></td></tr>
+      <tr><td style="padding-left:36px;">Fallidas técnicas *</td><td style="text-align:right;">24%</td><td style="text-align:right;">34%</td><td style="text-align:right;color:var(--red);font-weight:700;">+41.7%</td><td style="text-align:center;"><span class="tag tr">↓ Deterioro</span></td></tr>
+      <tr class="level-head"><td colspan="5" style="padding-left:14px;">Indicadores Operativos</td></tr>
+      <tr><td style="padding-left:36px;">Cumplimiento ring ≥20s</td><td style="text-align:right;">45%</td><td style="text-align:right;">49%</td><td style="text-align:right;color:var(--green);font-weight:700;">+8.9%</td><td style="text-align:center;"><span class="tag tg">↑ Mejora</span></td></tr>
+      <tr><td style="padding-left:36px;">Ring promedio NC</td><td style="text-align:right;">22.9s</td><td style="text-align:right;">25.9s</td><td style="text-align:right;color:var(--green);font-weight:700;">+13.1%</td><td style="text-align:center;"><span class="tag tg">↑ Mejora</span></td></tr>
+      <tr><td style="padding-left:36px;">Base nula (0% efectividad)</td><td style="text-align:right;">27%</td><td style="text-align:right;">31%</td><td style="text-align:right;color:var(--red);font-weight:700;">+16.5%</td><td style="text-align:center;"><span class="tag tr">↓ Deterioro</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<div style="padding:8px 14px;font-size:11px;color:var(--muted);font-style:italic;margin-bottom:20px;">* Fallidas técnicas: llamadas que no llegan a establecerse por causas externas: números erróneos o fuera de servicio en la base de datos, rechazo del servidor del operador móvil destino, o números potencialmente bloqueados por filtros anti-spam del operador.</div>
+<div class="sec-header">
+  <div class="sec-num">Sección II</div>
+  <div class="sec-title">Análisis de contactabilidad por Franja Horaria — (Efectividad vs. Productividad)</div>
+</div>
+
+<div style="border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;">
+  <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+    <colgroup>
+      <col style="width:7%"><col style="width:9%"><col style="width:10%"><col style="width:10%">
+      <col style="width:7%"><col style="width:9%"><col style="width:10%"><col style="width:10%">
+      <col style="width:6%"><col style="width:12%">
+    </colgroup>
+    <thead>
+      <tr style="background:var(--navy);">
+        <th colspan="4" style="padding:11px 14px;text-align:left;font-size:13px;font-weight:700;color:#fff;border-bottom:2px solid var(--gold);border-right:1px solid rgba(255,255,255,0.12);">Marzo 2026</th>
+        <th colspan="4" style="padding:11px 14px;text-align:left;font-size:13px;font-weight:700;color:#fff;border-bottom:2px solid var(--gold);border-right:1px solid rgba(255,255,255,0.12);">Abril 2026</th>
+        <th colspan="2" style="padding:11px 14px;text-align:center;font-size:13px;font-weight:700;color:#fff;border-bottom:2px solid var(--gold);">Acción</th>
+      </tr>
+      <tr style="background:#0d1e35;">
+        <th style="padding:8px;text-align:center;font-size:9px;color:#c8d8ea;border-bottom:1px solid #1a3460;">Hora</th>
+        <th style="padding:8px;text-align:center;font-size:9px;color:#c8d8ea;border-bottom:1px solid #1a3460;">Vol.</th>
+        <th style="padding:8px;text-align:center;font-size:9px;color:#c8d8ea;border-bottom:1px solid #1a3460;">% Efect.</th>
+        <th style="padding:8px;text-align:center;font-size:9px;color:#c8d8ea;border-bottom:1px solid #1a3460;border-right:1px solid rgba(255,255,255,0.08);">Product.</th>
+        <th style="padding:8px;text-align:center;font-size:9px;color:#c8d8ea;border-bottom:1px solid #1a3460;">Hora</th>
+        <th style="padding:8px;text-align:center;font-size:9px;color:#c8d8ea;border-bottom:1px solid #1a3460;">Vol.</th>
+        <th style="padding:8px;text-align:center;font-size:9px;color:#c8d8ea;border-bottom:1px solid #1a3460;">% Efect.</th>
+        <th style="padding:8px;text-align:center;font-size:9px;color:#c8d8ea;border-bottom:1px solid #1a3460;border-right:1px solid rgba(255,255,255,0.08);">Product.</th>
+        <th colspan="2" style="padding:8px;text-align:center;font-size:9px;color:#9fe0c0;border-bottom:1px solid #1a3460;">Mar + Abr</th>
+      </tr>
+    </thead>
+    <tbody id="hora-body"></tbody>
+  </table>
+</div>
+<div style="padding:10px 16px;background:#f5f3ee;border:1px solid var(--border);border-radius:8px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:20px;">
+  <span style="font-size:var(--fs-label);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);">Acciones</span>
+  <span style="display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-body);"><span style="background:#0a1628;color:#e8bf5a;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;">Potenciar</span>Alta ef. infrautilizada</span>
+  <span style="display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-body);"><span style="background:#e8f5ee;color:#155e38;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;">Mantener</span>Rendimiento estable</span>
+  <span style="display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-body);"><span style="background:#fdf3dc;color:#7a5000;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;">Reenfocar</span>Bajo retorno</span>
+  <span style="display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-body);"><span style="background:#9b1c1c;color:#fff;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;">Reducir</span>Mínimo retorno</span>
+  <span style="font-size:12px;color:var(--muted);">· Productividad = contactos reales absolutos</span>
+</div>
+<div class="callout yellow">
+  <div class="callout-icon">⚡</div>
+  <div>
+    <div class="callout-title">Marzo: mejor franja 12:00 (36%) · Abril: mejor franja 17:00 (37%)</div>
+    <div class="callout-text">En Marzo la franja más productiva es 12:00 (968 contactos reales). En Abril, 17:00 registra el mayor nivel de productividad con 37% efectivo. La franja 9:00 tiene la mayor tasa en Abril (52%) pero apenas 68 llamadas — es la más infrautilizada. <strong>Escalar 9:00–10:00 en Abril es la mayor oportunidad disponible sin recursos adicionales.</strong></div>
+  </div>
+</div>
+
+<!-- III: DIAGNÓSTICO -->
+<div class="sec-header">
+  <div class="sec-num">Sección III</div>
+  <div class="sec-title">Diagnóstico de Causa — ¿Agente, Base o Proceso?</div>
+</div>
+<div class="callout navy">
+  <div class="callout-icon">◆</div>
+  <div>
+    <div class="callout-title">El cliente no es el único problema</div>
+    <div class="callout-text">La tasa de rechazo por cliente es del 8.8–18.4% — manejable y estable. El problema es: <strong style="color:var(--gold3);">Cliente + Factores Internos + Factores Externos.</strong> 4 causas identificadas.</div>
+  </div>
+</div>
+
+<div class="cause-grid4">
+  <!-- CAUSA 1 -->
+  <div class="cause-card">
+    <div class="cause-head red">Causa 1 — El agente cuelga</div>
+    <div class="cause-body">
+      <div class="cause-period">
+        <span class="cp-badge cp-mar">Mar</span>
+        <div class="cp-text"><ul>
+          <li>58% de llamadas NC es por cuelgue antes de 20s por parte del agente. Mala Práctica.</li>
+          <li>787 llamadas cortadas en 0–5s</li>
+          <li>Mediana ring NC: 12.8s — Fuera de estándar</li>
+        </ul></div>
+      </div>
+      <div class="cause-period">
+        <span class="cp-badge cp-abr">Abr</span>
+        <div class="cp-text"><ul>
+          <li>43% — mejora del 25%, sigue siendo causa #1</li>
+          <li>311 llamadas cortadas en 0–5s</li>
+          <li>Front Tram: 59% → 46%, patrón persiste</li>
+        </ul></div>
+      </div>
+      <div class="cause-conclusion">
+        <div class="cc-label">Conclusión</div>
+        <div class="cc-text">Sin enforcement técnico en RingOver, la mejora depende de voluntad individual — no de proceso.</div>
+      </div>
+    </div>
+  </div>
+  <!-- CAUSA 2 -->
+  <div class="cause-card">
+    <div class="cause-head yellow">Causa 2 — Base obsoleta</div>
+    <div class="cause-body">
+      <div class="cause-period">
+        <span class="cp-badge cp-mar">Mar</span>
+        <div class="cp-text"><ul>
+          <li>27% de números con efectividad nula</li>
+          <li>5.229 llamadas sin retorno</li>
+          <li>394 números marcados 3+ veces sin éxito</li>
+        </ul></div>
+      </div>
+      <div class="cause-period">
+        <span class="cp-badge cp-abr">Abr</span>
+        <div class="cp-text">Números nulos: de 766 a 769 en cantidad pero peso subió de 27% a 31% (+16.5%) — nuevos números no válidos sin proceso de depuración.<br><br>Números con 3+ intentos: de 394 a 515 (+30.7%). Más esfuerzo en números incontactables.</div>
+      </div>
+      <div class="cause-conclusion">
+        <div class="cc-label">Conclusión</div>
+        <div class="cc-text">Cada mes sin depuración la base empeora. ROI de llamada a número nulo = cero.</div>
+      </div>
+    </div>
+  </div>
+  <!-- CAUSA 3 -->
+  <div class="cause-card">
+    <div class="cause-head navy-h">Causa 3 — Timing y fallidas</div>
+    <div class="cause-body">
+      <div class="cause-period">
+        <span class="cp-badge cp-mar">Mar</span>
+        <div class="cp-text"><ul>
+          <li>Mejor franja: Relación Efectividad y Productividad = 12:00 con 36% efectivo</li>
+          <li>Fallidas técnicas s/NC: 24%</li>
+          <li>Volumen concentrado desde las 13:00</li>
+        </ul></div>
+      </div>
+      <div class="cause-period">
+        <span class="cp-badge cp-abr">Abr</span>
+        <div class="cp-text"><ul>
+          <li>Mejor franja: 17:00 con 37% — y mayor nivel de Productividad</li>
+          <li>Fallidas técnicas s/NC: 34% (+41.7% vs Mar)</li>
+          <li>Aumento sin explicación documentada</li>
+        </ul></div>
+      </div>
+      <div class="cause-period">
+        <span class="cp-badge cp-hip">Hipótesis</span>
+        <div class="cp-text">Clientes en defensiva + Bases de datos desactualizadas + Contexto Global + Falta aumentar protocolos de contención.</div>
+      </div>
+      <div class="cause-conclusion">
+        <div class="cc-label">Conclusión</div>
+        <div class="cc-text">Aumento en fallidas técnicas es señal de alarma. Puede enmascarar números inválidos o problema de depuración de bases de datos.</div>
+      </div>
+    </div>
+  </div>
+  <!-- CAUSA 4 -->
+  <div class="cause-card">
+    <div class="cause-head gold-h">Causa 4 — Phone Scam Fatigue</div>
+    <div class="cause-body">
+      <div class="cause-period">
+        <span class="cp-badge cp-ext">Global</span>
+        <div class="cp-text"><ul>
+          <li>Robocalls y vishing — el cliente evita contestar números desconocidos / Los bloquea</li>
+          <li>IA generativa para clonación de voz — aumenta desconfianza</li>
+          <li>Apps de bloqueo (Truecaller, Hiya) filtran antes de que suene</li>
+          <li>Mayor percepción de inseguridad por parte de los clientes — temor a responder llamadas desconocidas (Phone Scam Fatigue): desconfianza telefónica estructural generalizada ante el auge del fraude por voz</li>
+        </ul></div>
+      </div>
+      <div class="cause-period">
+        <span class="cp-badge cp-esp">España</span>
+        <div class="cp-text"><ul>
+          <li><strong style="color:var(--text);">Jun 2025:</strong> prohibidas llamadas desde móviles. 135M llamadas fraudulentas bloqueadas</li>
+          <li><strong style="color:var(--text);">Nov 2025:</strong> contratos por llamada no consentida, nulos</li>
+          <li><strong style="color:var(--text);">Oct 2026 — 5 meses:</strong> prefijo 400 obligatorio. Clientes podrán bloquearlo desde su operador</li>
+        </ul></div>
+      </div>
+      <div class="cause-conclusion" style="border-left-color:var(--red);background:var(--red-bg);">
+        <div class="cc-label" style="color:var(--red-t);">Implicación</div>
+        <div class="cc-text" style="color:#6b2020;">Canal outbound bajo presión regulatoria creciente. La estrategia multicanal deja de ser opción.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IV: OPORTUNIDADES Y QUICK WINS -->
+<div class="sec-header">
+  <div class="sec-num">Sección IV</div>
+  <div class="sec-title">Oportunidades y Quick Wins</div>
+</div>
+<div class="rec-grid">
+  <div class="rec-card">
+    <div class="rec-head short">Inmediato</div>
+    <div class="rec-body">
+      <div class="rec-item"><div class="rec-num">01</div><div>
+        <span class="rec-title">Bloquear "cuelgue del agente" antes de 20s (Best Practice)</span>
+        <span class="rec-desc">Configurar en RingOver tiempo mínimo antes de permitir desconexión. Convierte la mejora observada en estándar obligatorio no reversible.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">02</div><div>
+        <span class="rec-title">Bloquear 769 números nulos</span>
+        <span class="rec-desc">Elimina el 32% de llamadas sin retorno. Cero costo operativo — impacto inmediato en eficiencia.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">03</div><div>
+        <span class="rec-title">Campaña masiva de actualización de datos (por correo)</span>
+        <span class="rec-desc">Base Objetivo: Números nulos. Reactivar o confirmar vigencia de los 769 números sin contacto efectivo antes de bloquearlos definitivamente.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">04</div><div>
+        <span class="rec-title">Desactivar números con ≥3 intentos fallidos</span>
+        <span class="rec-desc">515 números en Abril con retorno comprobado de cero. Pausar hasta validación.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">05</div><div>
+        <span class="rec-title">Potenciar 9:00–10:00 · Mantener 11:00–14:00 · Reenfocar 15:00–16:00 · Reducir 20:00</span>
+        <span class="rec-desc">9:00 tiene 52% efectivo con solo 68 llamadas en Abril — la franja más infrautilizada. 12:00 es la más productiva en Marzo (968 contactos reales). Redistribuir volumen sin recursos adicionales.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">06</div><div>
+        <span class="rec-title">Replicar Best Practices en Front Tram</span>
+        <span class="rec-desc">2 meses en zona crítica: 17–18% efectivo con 59% de cuelgues de agente s/NC. Mayor foco de desperdicio del portafolio.</span>
+      </div></div>
+    </div>
+  </div>
+  <div class="rec-card">
+    <div class="rec-head mid">Próximamente</div>
+    <div class="rec-body">
+      <div class="rec-item"><div class="rec-num">01</div><div>
+        <span class="rec-title">Proceso mensual de depuración de base</span>
+        <span class="rec-desc">Validación, actualización y purga. La base nula creció +16.5% en un solo mes sin intervención.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">02</div><div>
+        <span class="rec-title">Auditoría técnica de fallidas con RingOver</span>
+        <span class="rec-desc">Identificar si el +41.7% de aumento en Abril es problema de ruta, numeración o base de datos.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">03</div><div>
+        <span class="rec-title">Replicar modelo Titan SEO en Front Tram</span>
+        <span class="rec-desc">Titan SEO pasó de 49% a 63% en un mes reduciendo base nula de 29% a 10% (−65.5%).</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">04</div><div>
+        <span class="rec-title">Diseñar y divulgar Dashboard táctico ≥20s por agente</span>
+        <span class="rec-desc">La mejora de comportamiento necesita visibilidad para sostenerse. Sin dato visible, no hay responsabilidad.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">05</div><div>
+        <span class="rec-title">Auditoría Concorde Memorias</span>
+        <span class="rec-desc">51% fallidas s/NC — posible problema de numeración o configuración de ruta. Revisión técnica urgente.</span>
+      </div></div>
+    </div>
+  </div>
+  <div class="rec-card">
+    <div class="rec-head long">Estratégico</div>
+    <div class="rec-body">
+      <div class="rec-item"><div class="rec-num">01</div><div>
+        <span class="rec-title">Implementar Branded Calling / Caller ID verificado</span>
+        <span class="rec-desc">Permite que una empresa muestre su nombre, logo y validación de autenticidad cuando llama a un cliente, generando mayor confianza y aumentando la probabilidad de que la llamada sea contestada.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">02</div><div>
+        <span class="rec-title">Evaluar Orquestación omnicanal apoyada con IA</span>
+        <span class="rec-desc">Marcador predictivo con scoring de contactabilidad priorizando variables tácticas — inteligencia operativa.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">03</div><div>
+        <span class="rec-title">Canal alternativo + segmentación de base</span>
+        <span class="rec-desc">Email / SMS / WhatsApp para segmento con baja respuesta telefónica. Triangular con análisis de interacciones (WIP). Estrategia diferenciada por segmento.</span>
+      </div></div>
+      <div class="rec-item"><div class="rec-num">04</div><div>
+        <span class="rec-title"><strong>Marco Legal:</strong> Evaluar impacto del prefijo 400 (oct 2026)</span>
+        <span class="rec-desc">Obligatorio en 5 meses. Los clientes podrán bloquear todas las llamadas comerciales con un clic desde su operador. Requiere plan de adaptación.</span>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div><!-- /exec -->
+
+<!-- ═══ ANÁLISIS DE SOPORTE ═══ -->
+<div id="detail" class="page">
+<div class="masthead" style="padding:28px 48px 24px;">
+  <div class="eyebrow" style="margin-bottom:10px;">Análisis de Soporte · Detalle Operacional</div>
+  <div style="font-family:'Playfair Display',serif;font-size:26px;color:#fff;font-weight:700;">Datos y análisis de respaldo</div>
+  <div style="font-size:var(--fs-body);color:#fff;margin-top:6px;opacity:0.85;">Para profundizar, validar o preparar planes de acción · Marzo vs. Abril 2026</div>
+</div>
+<div class="gold-rule"></div>
+
+<div class="content">
+
+<!-- V: COMPARATIVO POR EQUIPO -->
+<div class="sec-header" style="margin-top:32px;">
+  <div class="sec-num">Sección V</div>
+  <div class="sec-title">Comparativo por Equipo</div>
+</div>
+<div class="team-grid">
+  <div class="team-card">
+    <div class="team-head ft">⚠ Front Tram — Crítico</div>
+    <div class="team-row hdr"><span class="tr-label" style="font-size:var(--fs-label);color:var(--muted);">Métrica</span><span class="tr-cell" style="font-size:var(--fs-label);color:var(--muted);">Mar</span><span class="tr-cell" style="font-size:var(--fs-label);color:var(--muted);">Abr</span><span class="tr-delta" style="color:var(--muted);">Δ</span></div>
+    <div class="team-row"><span class="tr-label">Contacto real</span><span class="tr-cell">25%</span><span class="tr-cell">26%</span><span class="tr-delta" style="color:var(--green);">+4%</span></div>
+    <div class="team-row"><span class="tr-label">% No contest.</span><span class="tr-cell">50%</span><span class="tr-cell">51%</span><span class="tr-delta" style="color:var(--red);">+2%</span></div>
+    <div class="team-row"><span class="tr-label">Cuelgue agente s/NC</span><span class="tr-cell">59%</span><span class="tr-cell">46%</span><span class="tr-delta" style="color:var(--green);">−22%</span></div>
+    <div class="team-row"><span class="tr-label">Fallidas s/NC</span><span class="tr-cell">22%</span><span class="tr-cell">30%</span><span class="tr-delta" style="color:var(--red);">+40%</span></div>
+    <div class="team-row"><span class="tr-label">Base nula</span><span class="tr-cell">34%</span><span class="tr-cell">40%</span><span class="tr-delta" style="color:var(--red);">+19%</span></div>
+    <div class="team-row" style="background:var(--red-bg);"><span class="verdict-badge" style="color:var(--red-t);">SIN MEJORA REAL</span></div>
+  </div>
+  <div class="team-card">
+    <div class="team-head web">⚡ Titan Web — Atención</div>
+    <div class="team-row hdr"><span class="tr-label" style="font-size:var(--fs-label);color:var(--muted);">Métrica</span><span class="tr-cell" style="font-size:var(--fs-label);color:var(--muted);">Mar</span><span class="tr-cell" style="font-size:var(--fs-label);color:var(--muted);">Abr</span><span class="tr-delta" style="color:var(--muted);">Δ</span></div>
+    <div class="team-row"><span class="tr-label">Contacto real</span><span class="tr-cell">39%</span><span class="tr-cell">46%</span><span class="tr-delta" style="color:var(--green);">+18.8%</span></div>
+    <div class="team-row"><span class="tr-label">% No contest.</span><span class="tr-cell">36%</span><span class="tr-cell">34%</span><span class="tr-delta" style="color:var(--green);">−5.6%</span></div>
+    <div class="team-row"><span class="tr-label">Cuelgue agente s/NC</span><span class="tr-cell">53%</span><span class="tr-cell">36%</span><span class="tr-delta" style="color:var(--green);">−32%</span></div>
+    <div class="team-row"><span class="tr-label">Fallidas s/NC</span><span class="tr-cell">29%</span><span class="tr-cell">44%</span><span class="tr-delta" style="color:var(--red);">+52%</span></div>
+    <div class="team-row"><span class="tr-label">Base nula</span><span class="tr-cell">28%</span><span class="tr-cell">28%</span><span class="tr-delta" style="color:var(--muted);">0%</span></div>
+    <div class="team-row" style="background:var(--yellow-bg);"><span class="verdict-badge" style="color:var(--yellow-t);">MEJORA PARCIAL</span></div>
+  </div>
+  <div class="team-card">
+    <div class="team-head rrss">↑ Titan RRSS — Bueno</div>
+    <div class="team-row hdr"><span class="tr-label" style="font-size:var(--fs-label);color:var(--muted);">Métrica</span><span class="tr-cell" style="font-size:var(--fs-label);color:var(--muted);">Mar</span><span class="tr-cell" style="font-size:var(--fs-label);color:var(--muted);">Abr</span><span class="tr-delta" style="color:var(--muted);">Δ</span></div>
+    <div class="team-row"><span class="tr-label">Contacto real</span><span class="tr-cell">~47%</span><span class="tr-cell">52%</span><span class="tr-delta" style="color:var(--green);">+10.6%</span></div>
+    <div class="team-row"><span class="tr-label">% No contest.</span><span class="tr-cell">33%</span><span class="tr-cell">26%</span><span class="tr-delta" style="color:var(--green);">−21.2%</span></div>
+    <div class="team-row"><span class="tr-label">Cuelgue agente s/NC</span><span class="tr-cell">62%</span><span class="tr-cell">41%</span><span class="tr-delta" style="color:var(--green);">−33.9%</span></div>
+    <div class="team-row"><span class="tr-label">Fallidas s/NC</span><span class="tr-cell">24%</span><span class="tr-cell">42%</span><span class="tr-delta" style="color:var(--red);">+75%</span></div>
+    <div class="team-row"><span class="tr-label">Base nula</span><span class="tr-cell">25%</span><span class="tr-cell">17%</span><span class="tr-delta" style="color:var(--green);">−32%</span></div>
+    <div class="team-row" style="background:var(--green-bg);"><span class="verdict-badge" style="color:var(--green-t);">MEJORA REAL</span></div>
+  </div>
+  <div class="team-card">
+    <div class="team-head seo">★ Titan SEO — Óptimo</div>
+    <div class="team-row hdr"><span class="tr-label" style="font-size:var(--fs-label);color:var(--muted);">Métrica</span><span class="tr-cell" style="font-size:var(--fs-label);color:var(--muted);">Mar</span><span class="tr-cell" style="font-size:var(--fs-label);color:var(--muted);">Abr</span><span class="tr-delta" style="color:var(--muted);">Δ</span></div>
+    <div class="team-row"><span class="tr-label">Contacto real</span><span class="tr-cell">49%</span><span class="tr-cell">63%</span><span class="tr-delta" style="color:var(--green);">+28.6%</span></div>
+    <div class="team-row"><span class="tr-label">% No contest.</span><span class="tr-cell">27%</span><span class="tr-cell">23%</span><span class="tr-delta" style="color:var(--green);">−14.8%</span></div>
+    <div class="team-row"><span class="tr-label">Cuelgue agente s/NC</span><span class="tr-cell">44%</span><span class="tr-cell">39%</span><span class="tr-delta" style="color:var(--green);">−11.4%</span></div>
+    <div class="team-row"><span class="tr-label">Fallidas s/NC</span><span class="tr-cell">41%</span><span class="tr-cell">32%</span><span class="tr-delta" style="color:var(--green);">−22%</span></div>
+    <div class="team-row"><span class="tr-label">Base nula</span><span class="tr-cell">29%</span><span class="tr-cell">10%</span><span class="tr-delta" style="color:var(--green);">−65.5%</span></div>
+    <div class="team-row" style="background:var(--green-bg);"><span class="verdict-badge" style="color:var(--green-t);">MEJOR EQUIPO</span></div>
+  </div>
+</div>
+<div class="callout red"><div class="callout-icon">⚠</div><div><div class="callout-title">Front Tram concentra el 64% del volumen y es el único equipo sin mejora real</div><div class="callout-text">Contacto real de 26% en Abril (+4% relativo vs Marzo). Base nula empeoró de 34% a 40% (+17.6%) y fallidas técnicas subieron 40%. Si Front Tram operara al nivel de Titan Web, el contacto global superaría el 42% sin cambios estructurales.</div></div></div>
+<div class="callout green"><div class="callout-icon">★</div><div><div class="callout-title">Titan SEO: de 49% a 63% en un mes — prueba interna de que el 60% es alcanzable</div><div class="callout-text">Base nula bajó de 29% a 10% (−65.5%) — la acción más inteligente del portafolio. Mismos recursos y herramientas — es el modelo interno a replicar.</div></div></div>
+
+<!-- VI: RINGING -->
+<div class="sec-header">
+  <div class="sec-num">Sección VI</div>
+  <div class="sec-title">Análisis de Ringing — ¿Se está esperando el tiempo suficiente?</div>
+</div>
+<div class="sub-label" style="margin-top:0;">Cumplimiento estándar ≥20s — Evolución Marzo → Abril</div>
+<div class="tw">
+  <table>
+    <thead><tr>
+      <th>Tipo NC</th>
+      <th class="mar" style="text-align:right;">Mar &lt;20s</th><th class="mar" style="text-align:right;">Mar %</th>
+      <th class="abr" style="text-align:right;">Abr &lt;20s</th><th class="abr" style="text-align:right;">Abr %</th>
+      <th class="delta" style="text-align:right;">Δ Relativo</th>
+      <th style="text-align:center;">Estado</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>Rechazada por cliente</td><td style="text-align:right;">1.548</td><td style="text-align:right;">79%</td><td style="text-align:right;">1.564</td><td style="text-align:right;">76%</td><td style="text-align:right;color:var(--green);font-weight:700;">−3.8%</td><td style="text-align:center;"><span class="tag ty">Leve mejora</span></td></tr>
+      <tr style="background:rgba(155,28,28,0.03);"><td><strong>Colgada por agente</strong></td><td style="text-align:right;">3.566</td><td style="text-align:right;">58%</td><td style="text-align:right;">2.058</td><td style="text-align:right;">53%</td><td style="text-align:right;color:var(--green);font-weight:700;">−8.6%</td><td style="text-align:center;"><span class="tag ty">Mejora parcial</span></td></tr>
+      <tr><td>Fallida técnica</td><td style="text-align:right;">803</td><td style="text-align:right;">31%</td><td style="text-align:right;">987</td><td style="text-align:right;">33%</td><td style="text-align:right;color:var(--red);font-weight:700;">+6.5%</td><td style="text-align:center;"><span class="tag tn">Estable</span></td></tr>
+      <tr class="total-row"><td>TOTAL NC</td><td style="text-align:right;">5.917</td><td style="text-align:right;">55%</td><td style="text-align:right;">4.609</td><td style="text-align:right;">51%</td><td style="text-align:right;color:var(--green);font-weight:700;">−7.3%</td><td style="text-align:center;"><span class="tag ty">Mejora — aún crítico</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="sub-label">Distribución por franja de ringing</div>
+<div class="tw">
+  <table>
+    <thead><tr>
+      <th>Franja ring</th>
+      <th class="mar" style="text-align:right;">Mar NC</th><th class="mar" style="text-align:right;">Mar %</th>
+      <th class="abr" style="text-align:right;">Abr NC</th><th class="abr" style="text-align:right;">Abr %</th>
+      <th class="delta" style="text-align:right;">Δ Relativo</th>
+      <th style="text-align:center;">Evaluación</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>0 – 5s</td><td style="text-align:right;">840</td><td style="text-align:right;">7.9%</td><td style="text-align:right;">352</td><td style="text-align:right;">3.9%</td><td style="text-align:right;color:var(--green);font-weight:700;">−50.6%</td><td style="text-align:center;"><span class="tag tg">Mejora real</span></td></tr>
+      <tr><td>5 – 10s</td><td style="text-align:right;">2.072</td><td style="text-align:right;">19.4%</td><td style="text-align:right;">1.729</td><td style="text-align:right;">19.2%</td><td style="text-align:right;color:var(--muted);">−1.0%</td><td style="text-align:center;"><span class="tag tn">Sin cambio</span></td></tr>
+      <tr><td>10 – 15s</td><td style="text-align:right;">1.661</td><td style="text-align:right;">15.6%</td><td style="text-align:right;">1.585</td><td style="text-align:right;">17.6%</td><td style="text-align:right;color:var(--red);font-weight:700;">+12.8%</td><td style="text-align:center;"><span class="tag tr">Leve deterioro</span></td></tr>
+      <tr><td>15 – 20s</td><td style="text-align:right;">1.344</td><td style="text-align:right;">12.6%</td><td style="text-align:right;">943</td><td style="text-align:right;">10.5%</td><td style="text-align:right;color:var(--green);font-weight:700;">−16.7%</td><td style="text-align:center;"><span class="tag ty">Leve mejora</span></td></tr>
+      <tr><td>20 – 30s</td><td style="text-align:right;">1.046</td><td style="text-align:right;">9.8%</td><td style="text-align:right;">1.578</td><td style="text-align:right;">17.6%</td><td style="text-align:right;color:var(--green);font-weight:700;">+50.9%</td><td style="text-align:center;"><span class="tag tg">Mejora significativa</span></td></tr>
+      <tr><td>30 – 45s</td><td style="text-align:right;">1.567</td><td style="text-align:right;">14.7%</td><td style="text-align:right;">1.258</td><td style="text-align:right;">14.0%</td><td style="text-align:right;color:var(--muted);">−4.8%</td><td style="text-align:center;"><span class="tag tg">Estable — bueno</span></td></tr>
+      <tr><td>45s+</td><td style="text-align:right;">1.251</td><td style="text-align:right;">11.7%</td><td style="text-align:right;">1.543</td><td style="text-align:right;">17.2%</td><td style="text-align:right;color:var(--red);font-weight:700;">+23.3%</td><td style="text-align:center;"><span class="tag ty">Fallidas técnicas largas</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- VII: FRANJA HORARIA POR EQUIPO -->
+<div class="sec-header">
+  <div class="sec-num">Sección VII</div>
+  <div class="sec-title">Franja Horaria por Equipo — Efectividad vs. Productividad</div>
+</div>
+<div id="equipo-tables"></div>
+
+<!-- VIII: IVR -->
+<div class="sec-header">
+  <div class="sec-num">Sección VIII</div>
+  <div class="sec-title">Análisis de Impacto por IVR Orbidi</div>
+</div>
+<div class="tw">
+  <table>
+    <thead><tr>
+      <th>Campaña IVR</th>
+      <th class="mar" style="text-align:right;">Mar % Ef.</th>
+      <th class="abr" style="text-align:right;">Abr % Ef.</th>
+      <th class="delta" style="text-align:right;">Δ Relativo</th>
+      <th class="abr" style="text-align:right;">Abr Cuelgue Agente s/NC</th>
+      <th style="text-align:center;">Tendencia</th>
+      <th style="text-align:center;">Estado</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>(sin IVR)</td><td style="text-align:right;">53%</td><td style="text-align:right;">52%</td><td style="text-align:right;color:var(--muted);">−1.9%</td><td style="text-align:right;">43%</td><td style="text-align:center;"><span class="tag tg">Estable</span></td><td style="text-align:center;"><span class="tag tg">BUENO</span></td></tr>
+      <tr><td>Centralita Orbidi INBOUND</td><td style="text-align:right;">37%</td><td style="text-align:right;">46%</td><td style="text-align:right;color:var(--green);font-weight:700;">+24.3%</td><td style="text-align:right;">33%</td><td style="text-align:center;"><span class="tag tg">Mejora</span></td><td style="text-align:center;"><span class="tag tg">BUENO</span></td></tr>
+      <tr><td>Lucía Torres Redireccionamiento</td><td style="text-align:right;">39%</td><td style="text-align:right;">49%</td><td style="text-align:right;color:var(--green);font-weight:700;">+25.6%</td><td style="text-align:right;">16%</td><td style="text-align:center;"><span class="tag tg">Mejora sig.</span></td><td style="text-align:center;"><span class="tag tg">BUENO</span></td></tr>
+      <tr><td>Atlas – Firmas Memorias</td><td style="text-align:right;">33%</td><td style="text-align:right;">33%</td><td style="text-align:right;color:var(--muted);">0%</td><td style="text-align:right;">44%</td><td style="text-align:center;"><span class="tag tn">Sin cambio</span></td><td style="text-align:center;"><span class="tag ty">ATENCIÓN</span></td></tr>
+      <tr><td>Atlas – Cobros IVA/IGIC MKT</td><td style="text-align:right;">17%</td><td style="text-align:right;">16%</td><td style="text-align:right;color:var(--red);font-weight:700;">−5.9%</td><td style="text-align:right;">50%</td><td style="text-align:center;"><span class="tag tr">Deterioro</span></td><td style="text-align:center;"><span class="tag tr">CRÍTICO</span></td></tr>
+      <tr><td>Concorde – Mem. No Cobradas</td><td style="text-align:right;">17%</td><td style="text-align:right;">10%</td><td style="text-align:right;color:var(--red);font-weight:700;">−41.2%</td><td style="text-align:right;">9%</td><td style="text-align:center;"><span class="tag tr">Deterioro grave</span></td><td style="text-align:center;"><span class="tag tr">CRÍTICO</span></td></tr>
+      <tr style="background:rgba(155,28,28,0.03);"><td><strong>Atlas – Ratificaciones Memorias</strong></td><td style="text-align:right;">18%</td><td style="text-align:right;">17%</td><td style="text-align:right;color:var(--red);font-weight:700;">−5.6%</td><td style="text-align:right;"><strong>59%</strong></td><td style="text-align:center;"><span class="tag tr">Deterioro</span></td><td style="text-align:center;"><span class="tag tr">CRÍTICO</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- IX: BASE -->
+<div class="sec-header">
+  <div class="sec-num">Sección IX</div>
+  <div class="sec-title">Base de Datos — El Problema Silencioso que Crece</div>
+</div>
+<div class="tw">
+  <table>
+    <thead><tr>
+      <th>Segmento</th>
+      <th class="mar" style="text-align:right;">Mar Núm.</th><th class="mar" style="text-align:right;">Mar %</th><th class="mar" style="text-align:right;">Mar Llamadas</th>
+      <th class="abr" style="text-align:right;">Abr Núm.</th><th class="abr" style="text-align:right;">Abr %</th><th class="abr" style="text-align:right;">Abr Llamadas</th>
+      <th class="delta" style="text-align:right;">Δ Relativo</th><th style="text-align:center;">Tendencia</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>Alta (&gt;70%)</td><td style="text-align:right;">331</td><td style="text-align:right;">12%</td><td style="text-align:right;">1.433</td><td style="text-align:right;">278</td><td style="text-align:right;">11%</td><td style="text-align:right;">1.233</td><td style="text-align:right;color:var(--muted);">−8.3%</td><td style="text-align:center;"><span class="tag tn">Estable</span></td></tr>
+      <tr><td>Media (30–70%)</td><td style="text-align:right;">1.083</td><td style="text-align:right;">38%</td><td style="text-align:right;">5.783</td><td style="text-align:right;">967</td><td style="text-align:right;">39%</td><td style="text-align:right;">4.401</td><td style="text-align:right;color:var(--green);font-weight:700;">+2.6%</td><td style="text-align:center;"><span class="tag tg">Leve mejora</span></td></tr>
+      <tr><td>Baja (1–30%)</td><td style="text-align:right;">698</td><td style="text-align:right;">24%</td><td style="text-align:right;">6.988</td><td style="text-align:right;">466</td><td style="text-align:right;">19%</td><td style="text-align:right;">4.385</td><td style="text-align:right;color:var(--green);font-weight:700;">−20.8%</td><td style="text-align:center;"><span class="tag tg">Mejora</span></td></tr>
+      <tr class="total-row"><td><strong>Nula (0%)</strong></td><td style="text-align:right;">766</td><td style="text-align:right;">27%</td><td style="text-align:right;">5.229</td><td style="text-align:right;">769</td><td style="text-align:right;">31%</td><td style="text-align:right;">4.772</td><td style="text-align:right;color:var(--red);font-weight:700;">+16.5%</td><td style="text-align:center;"><span class="tag tr">DETERIORO</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- X: REGULATORIO -->
+<div class="sec-header">
+  <div class="sec-num">Sección X</div>
+  <div class="sec-title">Contexto Estratégico — Regulación y Fraude Telefónico</div>
+</div>
+<div class="reg-grid">
+  <div class="reg-card">
+    <div class="reg-head">Contexto global</div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div><div class="reg-text">Proliferación masiva de robocalls y vishing: el cliente evita contestar números desconocidos / Los bloquea.</div></div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div><div class="reg-text">IA generativa para fraude por voz: clonación en tiempo real aumenta la desconfianza en cualquier llamada inesperada.</div></div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div><div class="reg-text">Apps de bloqueo masivo (Truecaller, Hiya, Google Call Screen): filtran números empresariales antes de que suene.</div></div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div><div class="reg-text"><strong>Phone Scam Fatigue:</strong> desconfianza telefónica estructural generalizada — temor a responder llamadas desconocidas ante el auge del fraude por voz. Los consumidores desarrollan un patrón de rechazo preventivo ante cualquier número no identificado.</div></div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div><div class="reg-text"><strong>EE.UU.:</strong> STIR/SHAKEN (2021) — autenticación obligatoria de llamadas.</div></div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div><div class="reg-text"><strong>UK:</strong> Ofcom regula activamente el spoofing y exige identificación de llamadas comerciales.</div></div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div><div class="reg-text"><strong>UE:</strong> Directiva ePrivacy refuerza el consentimiento previo para comunicaciones comerciales.</div></div></div>
+  </div>
+  <div class="reg-card">
+    <div class="reg-head">España — Marco regulatorio vigente y próximo</div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div>
+      <div class="reg-text"><strong>Desde 7 jun 2025 (en vigor):</strong> prohibidas llamadas comerciales desde móviles. 135 millones de llamadas fraudulentas bloqueadas.</div>
+      <div class="reg-source">Orden TDF/149/2025, BOE 15-feb-2025 · Plan Antiestafas, España Digital (dic 2025)</div>
+    </div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div>
+      <div class="reg-text"><strong>Nov 2025 (en vigor):</strong> contratos por llamada no consentida declarados nulos.</div>
+      <div class="reg-source">Ley de Servicios de Atención a la Clientela — Congreso, 13 nov 2025</div>
+    </div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div>
+      <div class="reg-text"><strong>Octubre 2026 — 5 meses:</strong> prefijo 400 obligatorio. El cliente sabrá que es llamada comercial antes de contestar. Operadores ofrecerán bloqueo total del prefijo.</div>
+      <div class="reg-source">Ministerio para la Transformación Digital · Gobierno de España, abr-may 2026</div>
+    </div></div>
+    <div class="reg-item"><div class="reg-bullet">›</div><div>
+      <div class="reg-text"><strong>Jun 2026:</strong> base de datos CNMC para verificar SMS comerciales.</div>
+      <div class="reg-source">Lawwwing / Bird & Bird — análisis Orden TDF/149/2025</div>
+    </div></div>
+    <div style="margin-top:14px;padding:13px 16px;background:var(--red-bg);border-radius:6px;border-left:3px solid var(--red);">
+      <div style="font-size:var(--fs-label);font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--red-t);margin-bottom:5px;">Implicación estratégica directa</div>
+      <div style="font-size:var(--fs-body);color:#6b2020;line-height:1.65;">En 5 meses, todas las llamadas outbound deberán salir con prefijo 400. Los clientes podrán bloquearlas con un clic. La estrategia multicanal deja de ser una opción — pasa a ser una necesidad operativa.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div><!-- /detail -->
+
+<div class="footer-bar">
+  <span>Análisis Outbound CS · Gestión RingOver · Marzo–Abril 2026</span>
+  <div class="footer-brand">Confidencial · C-Level</div>
+  <span>Fuente: Ringover · Mayo 2026</span>
+</div>
+
+<script>
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ── FRANJA HORARIA DATA ── */
+const marData=[
+  {h:'9:00',vol:343,ef:30.9},{h:'10:00',vol:1076,ef:32.9},{h:'11:00',vol:1976,ef:35.8},
+  {h:'12:00',vol:2688,ef:35.9},{h:'13:00',vol:3000,ef:32.1},{h:'14:00',vol:2718,ef:32.7},
+  {h:'15:00',vol:2633,ef:29.5},{h:'16:00',vol:3546,ef:28.6},{h:'17:00',vol:3073,ef:31.5},
+  {h:'18:00',vol:2102,ef:31.4},{h:'19:00',vol:1210,ef:26.4},{h:'20:00',vol:590,ef:20.8},
+];
+const abrData=[
+  {h:'9:00',vol:68,ef:51.5},{h:'10:00',vol:576,ef:41.3},{h:'11:00',vol:1600,ef:33.9},
+  {h:'12:00',vol:2360,ef:32.3},{h:'13:00',vol:2244,ef:33.9},{h:'14:00',vol:2280,ef:34.6},
+  {h:'15:00',vol:2619,ef:29.5},{h:'16:00',vol:2656,ef:33.3},{h:'17:00',vol:2313,ef:37.0},
+  {h:'18:00',vol:2016,ef:34.9},{h:'19:00',vol:1308,ef:32.5},{h:'20:00',vol:621,ef:33.8},
+];
+const actions=[
+  {a:'Potenciar',bg:'#0a1628',color:'#e8bf5a'},{a:'Potenciar',bg:'#0a1628',color:'#e8bf5a'},
+  {a:'Mantener',bg:'#e8f5ee',color:'#155e38'},{a:'Mantener',bg:'#e8f5ee',color:'#155e38'},
+  {a:'Mantener',bg:'#e8f5ee',color:'#155e38'},{a:'Mantener',bg:'#e8f5ee',color:'#155e38'},
+  {a:'Reenfocar',bg:'#fdf3dc',color:'#7a5000'},{a:'Reenfocar',bg:'#fdf3dc',color:'#7a5000'},
+  {a:'Mantener',bg:'#e8f5ee',color:'#155e38'},{a:'Mantener',bg:'#e8f5ee',color:'#155e38'},
+  {a:'Reenfocar',bg:'#fdf3dc',color:'#7a5000'},{a:'Reducir',bg:'#9b1c1c',color:'#ffffff'},
+];
+
+/* PER-TEAM DATA */
+const teamData = {
+  'Front Tram': {
+    head:'ft',
+    mar:[
+      {h:'9:00',vol:145,ef:20.0},{h:'10:00',vol:504,ef:22.6},{h:'11:00',vol:867,ef:26.2},
+      {h:'12:00',vol:1179,ef:28.0},{h:'13:00',vol:1499,ef:25.6},{h:'14:00',vol:1589,ef:25.4},
+      {h:'15:00',vol:1871,ef:25.8},{h:'16:00',vol:2252,ef:21.7},{h:'17:00',vol:1716,ef:24.5},
+      {h:'18:00',vol:1366,ef:26.0},{h:'19:00',vol:949,ef:23.3},{h:'20:00',vol:526,ef:19.8},
+    ],
+    abr:[
+      {h:'9:00',vol:2,ef:0},{h:'10:00',vol:332,ef:30.7},{h:'11:00',vol:1019,ef:26.6},
+      {h:'12:00',vol:1534,ef:25.6},{h:'13:00',vol:1367,ef:26.4},{h:'14:00',vol:1581,ef:28.3},
+      {h:'15:00',vol:1956,ef:24.4},{h:'16:00',vol:1651,ef:25.4},{h:'17:00',vol:1265,ef:28.5},
+      {h:'18:00',vol:1217,ef:26.5},{h:'19:00',vol:864,ef:23.6},{h:'20:00',vol:431,ef:25.1},
+    ]
+  },
+  'Titan RRSS': {
+    head:'rrss',
+    mar:[
+      {h:'9:00',vol:19,ef:63.2},{h:'10:00',vol:167,ef:50.3},{h:'11:00',vol:307,ef:47.9},
+      {h:'12:00',vol:363,ef:46.3},{h:'13:00',vol:315,ef:47.9},{h:'14:00',vol:168,ef:48.2},
+      {h:'15:00',vol:26,ef:42.3},{h:'16:00',vol:266,ef:46.2},{h:'17:00',vol:225,ef:43.6},
+      {h:'18:00',vol:138,ef:38.4},{h:'19:00',vol:17,ef:47.1},{h:'20:00',vol:0,ef:0},
+    ],
+    abr:[
+      {h:'9:00',vol:27,ef:51.9},{h:'10:00',vol:100,ef:49.0},{h:'11:00',vol:211,ef:48.8},
+      {h:'12:00',vol:197,ef:53.3},{h:'13:00',vol:190,ef:53.2},{h:'14:00',vol:99,ef:51.5},
+      {h:'15:00',vol:23,ef:47.8},{h:'16:00',vol:122,ef:50.0},{h:'17:00',vol:103,ef:56.3},
+      {h:'18:00',vol:46,ef:54.3},{h:'19:00',vol:2,ef:100},{h:'20:00',vol:0,ef:0},
+    ]
+  },
+  'Titan SEO': {
+    head:'seo',
+    mar:[
+      {h:'9:00',vol:15,ef:26.7},{h:'10:00',vol:67,ef:55.2},{h:'11:00',vol:86,ef:52.3},
+      {h:'12:00',vol:96,ef:51.0},{h:'13:00',vol:73,ef:39.7},{h:'14:00',vol:36,ef:47.2},
+      {h:'15:00',vol:7,ef:71.4},{h:'16:00',vol:66,ef:45.5},{h:'17:00',vol:42,ef:57.1},
+      {h:'18:00',vol:14,ef:42.9},{h:'19:00',vol:49,ef:59.2},{h:'20:00',vol:16,ef:43.8},
+    ],
+    abr:[
+      {h:'9:00',vol:10,ef:40.0},{h:'10:00',vol:39,ef:61.5},{h:'11:00',vol:49,ef:67.3},
+      {h:'12:00',vol:34,ef:70.6},{h:'13:00',vol:32,ef:65.6},{h:'14:00',vol:14,ef:50.0},
+      {h:'15:00',vol:10,ef:70.0},{h:'16:00',vol:31,ef:61.3},{h:'17:00',vol:35,ef:57.1},
+      {h:'18:00',vol:1,ef:100},{h:'19:00',vol:0,ef:0},{h:'20:00',vol:0,ef:0},
+    ]
+  },
+  'Titan Web': {
+    head:'web',
+    mar:[
+      {h:'9:00',vol:21,ef:57.1},{h:'10:00',vol:87,ef:41.4},{h:'11:00',vol:629,ef:40.5},
+      {h:'12:00',vol:900,ef:39.3},{h:'13:00',vol:942,ef:35.5},{h:'14:00',vol:846,ef:42.3},
+      {h:'15:00',vol:674,ef:37.4},{h:'16:00',vol:897,ef:37.2},{h:'17:00',vol:1026,ef:37.7},
+      {h:'18:00',vol:548,ef:43.1},{h:'19:00',vol:241,ef:37.3},{h:'20:00',vol:63,ef:28.6},
+    ],
+    abr:[
+      {h:'8:00',vol:3,ef:0},{h:'9:00',vol:6,ef:33.3},{h:'10:00',vol:35,ef:62.9},
+      {h:'11:00',vol:229,ef:40.6},{h:'12:00',vol:423,ef:41.1},{h:'13:00',vol:542,ef:42.8},
+      {h:'14:00',vol:495,ef:48.3},{h:'15:00',vol:524,ef:45.6},{h:'16:00',vol:788,ef:45.7},
+      {h:'17:00',vol:854,ef:46.3},{h:'18:00',vol:699,ef:47.6},{h:'19:00',vol:423,ef:50.1},
+      {h:'20:00',vol:190,ef:53.7},{h:'21:00',vol:3,ef:33.3},
+    ]
+  }
+};
+
+function getRanks(data){
+  const c=data.map(r=>Math.round(r.vol*r.ef/100));
+  const ef=data.map(r=>r.ef);
+  const eD=[...ef].sort((a,b)=>b-a),eA=[...ef].sort((a,b)=>a-b);
+  const pD=[...c].sort((a,b)=>b-a),pA=[...c].sort((a,b)=>a-b);
+  return data.map((r,i)=>{
+    const ct=c[i];
+    function rk(v,d,a){
+      const t=d.indexOf(v),b=a.indexOf(v);
+      if(t===0)return{l:'#1',t:'top'};if(t===1)return{l:'#2',t:'top'};if(t===2)return{l:'#3',t:'top'};
+      if(b===0)return{l:'#1',t:'bot'};if(b===1)return{l:'#2',t:'bot'};return{l:'',t:'none'};
+    }
+    return{ef:r.ef,vol:r.vol,c:ct,er:rk(r.ef,eD,eA),pr:rk(ct,pD,pA)};
+  });
+}
+
+const H='41px';
+const TD=`padding:0 5px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;vertical-align:middle;border-bottom:0.5px solid var(--divider);height:${H};`;
+const TDR=TD+'border-right:1px solid var(--divider);';
+
+function rc(val,rank,isPct,extra){
+  const txt=isPct?Math.round(val)+'%':val.toLocaleString();
+  const s=extra||TD;
+  if(rank.t==='none')return`<td style="${s}color:var(--text2);">${txt}</td>`;
+  const bg=rank.t==='top'?'#0a1628':'#9b1c1c';
+  return`<td style="${s}"><span style="display:inline-flex;align-items:center;justify-content:center;gap:3px;background:${bg};color:#fff;padding:3px 7px;border-radius:4px;font-size:12px;font-weight:600;">${txt}<span style="font-size:8px;opacity:0.8;">${rank.l}</span></span></td>`;
+}
+
+/* BUILD GLOBAL HORA TABLE */
+const mR=getRanks(marData),aR=getRanks(abrData);
+const tbody=document.getElementById('hora-body');
+marData.forEach((mr,i)=>{
+  const ar=abrData[i],mk=mR[i],ak=aR[i],act=actions[i];
+  const rBg=i%2===0?'var(--surface)':'#fafaf8';
+  tbody.innerHTML+=`<tr style="background:${rBg};">
+    <td style="${TD}font-weight:600;color:var(--text);">${mr.h}</td>
+    <td style="${TD}color:var(--muted);">${mr.vol.toLocaleString()}</td>
+    ${rc(mr.ef,mk.er,true)}${rc(mk.c,mk.pr,false,TDR)}
+    <td style="${TD}font-weight:600;color:var(--text);">${ar.h}</td>
+    <td style="${TD}color:var(--muted);">${ar.vol.toLocaleString()}</td>
+    ${rc(ar.ef,ak.er,true)}${rc(ak.c,ak.pr,false,TDR)}
+    <td colspan="2" style="${TD}"><span style="display:inline-block;padding:3px 9px;border-radius:4px;background:${act.bg};color:${act.color};font-size:11px;font-weight:700;white-space:nowrap;">${act.a}</span></td>
+  </tr>`;
+});
+
+/* BUILD TEAM HORA TABLES */
+const headLabels = {
+  'Front Tram': {cls:'ft', label:'⚠ Front Tram'},
+  'Titan RRSS': {cls:'rrss', label:'↑ Titan RRSS'},
+  'Titan SEO':  {cls:'seo', label:'★ Titan SEO'},
+  'Titan Web':  {cls:'web', label:'⚡ Titan Web'},
+};
+
+const container = document.getElementById('equipo-tables');
+
+Object.entries(teamData).forEach(([name, d]) => {
+  const mRk = getRanks(d.mar);
+  const aRk = getRanks(d.abr);
+  const hl = headLabels[name];
+
+  let mRows = '';
+  d.mar.forEach((r,i) => {
+    const rk = mRk[i];
+    const bg = i%2===0?'var(--surface)':'#fafaf8';
+    mRows += `<tr style="background:${bg};">
+      <td style="${TD}font-weight:600;color:var(--text);">${r.h}</td>
+      <td style="${TD}color:var(--muted);">${r.vol.toLocaleString()}</td>
+      ${rc(r.ef,rk.er,true)}
+      ${rc(rk.c,rk.pr,false)}
+    </tr>`;
+  });
+
+  let aRows = '';
+  d.abr.forEach((r,i) => {
+    const rk = aRk[i];
+    const bg = i%2===0?'var(--surface)':'#fafaf8';
+    aRows += `<tr style="background:${bg};">
+      <td style="${TD}font-weight:600;color:var(--text);">${r.h}</td>
+      <td style="${TD}color:var(--muted);">${r.vol.toLocaleString()}</td>
+      ${rc(r.ef,rk.er,true)}
+      ${rc(rk.c,rk.pr,false)}
+    </tr>`;
+  });
+
+  const thSub = `padding:8px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;border-bottom:1px solid #1a3460;color:#c8d8ea;`;
+
+  container.innerHTML += `
+  <div style="margin-bottom:28px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:10px;">${hl.label}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+          <thead>
+            <tr style="background:var(--navy);">
+              <th colspan="4" style="padding:10px 14px;text-align:left;font-size:12px;font-weight:700;color:#fff;border-bottom:2px solid var(--gold);">Marzo 2026</th>
+            </tr>
+            <tr style="background:#0d1e35;">
+              <th style="${thSub}">Hora</th>
+              <th style="${thSub}">Vol.</th>
+              <th style="${thSub}">% Efect.</th>
+              <th style="${thSub}">Product.</th>
+            </tr>
+          </thead>
+          <tbody>${mRows}</tbody>
+        </table>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+          <thead>
+            <tr style="background:var(--navy);">
+              <th colspan="4" style="padding:10px 14px;text-align:left;font-size:12px;font-weight:700;color:#fff;border-bottom:2px solid var(--gold);">Abril 2026</th>
+            </tr>
+            <tr style="background:#0d1e35;">
+              <th style="${thSub}">Hora</th>
+              <th style="${thSub}">Vol.</th>
+              <th style="${thSub}">% Efect.</th>
+              <th style="${thSub}">Product.</th>
+            </tr>
+          </thead>
+          <tbody>${aRows}</tbody>
+        </table>
+      </div>
+    </div>
+  </div>`;
+});
+</script>
+</body>
+</html>
